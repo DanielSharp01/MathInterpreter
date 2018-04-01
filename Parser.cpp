@@ -165,12 +165,12 @@ Expression* Parser::parseUnaryExpression()
 	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("-"))
 	{
 		nextToken();
-		return new NegExpression(parseFunctionCallExpression(), line, column);
+		return new NegExpression(parseUnaryExpression(), line, column);
 	}
 	else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("!"))
 	{
 		nextToken();
-		return new NotExpression(parseFunctionCallExpression(), line, column);
+		return new NotExpression(parseUnaryExpression(), line, column);
 	}
 	
 	return parseFunctionCallExpression();
