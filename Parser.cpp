@@ -178,7 +178,30 @@ Expression* Parser::parseUnaryExpression()
 
 Expression* Parser::parseFunctionCallExpression()
 {
-	return parseBaseExpression();
+	int line = currentLine();
+	int column = currentColumn();
+	Expression* called = parseBaseExpression();
+	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("("))
+	{
+		std::vector<const Expression*> params;
+		do
+		{
+			nextToken();
+			params.push_back(parseExpression());
+		} while (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(","));
+		
+		if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(")"))
+		{
+			nextToken();
+		}
+		else; //TODO: ERROR
+
+		return new FunctionCallExpression(called, params, line, column);
+	}
+	else
+	{
+		return called;
+	}
 }
 
 Expression* Parser::parseParanthesesExpression()

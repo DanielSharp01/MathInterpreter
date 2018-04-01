@@ -73,7 +73,8 @@ Token* Tokenizer::parseSymbol()
 	int line = currLine, column = currColumn;
 	char buffer[2] = { nextChar(), currentChar() };
 	if (buffer[0] == '+' || buffer[0] == '-' || buffer[0] == '*' || buffer[0] == '/' || buffer[0] == '^' || buffer[0] == '%'
-		|| buffer[0] == '(' || buffer[0] == ')' || buffer[0] == '{' || buffer[0] == '}' || buffer[0] == '?' || buffer[0] == ':')
+		|| buffer[0] == '(' || buffer[0] == ')' || buffer[0] == '{' || buffer[0] == '}' || buffer[0] == '?' || buffer[0] == ':'
+		|| buffer[0] == ',')
 	{
 		return new SymbolToken(std::string(buffer, 1), line, column);
 	}
