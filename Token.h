@@ -53,7 +53,7 @@ std::ostream& operator<<(std::ostream& os, const Token& other);
 class NumberToken : public Token
 {
 private:
-	/// @param value A Token értéke
+	/// A Token értéke
 	double value;
 public:
 	/// @param value A Token értéke
@@ -62,14 +62,15 @@ public:
 	NumberToken(double value, int line, int column);
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
-	double value() const;
+	/// A Token értéke
+	double getValue() const;
 };
 
 /// "true" / "false"
 class BoolToken : public Token
 {
 private:
-	/// @param value A Token értéke
+	/// A Token értéke
 	bool value;
 public:
 	/// @param value A Token értéke
@@ -78,7 +79,8 @@ public:
 	BoolToken(bool value, int line, int column);
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
-	bool value() const;
+	/// A Token értéke
+	bool getValue() const;
 };
 
 /// Az "undefined" szó
@@ -96,7 +98,7 @@ public:
 class IdentifierToken : public Token
 {
 private:
-	/// @param value A Token értéke
+	/// A Token értéke
 	std::string value;
 public:
 	/// @param value A Token értéke
@@ -105,34 +107,36 @@ public:
 	IdentifierToken(std::string value, int line, int column);
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
-	std::string value() const;
+	/// A Token értéke
+	std::string getValue() const;
 };
 
 /// Operátorok és egyéb jelek
 class SymbolToken : public Token
 {
 private:
-	/// @param value A Token értéke
-	char value;
+	/// A Token értéke
+	std::string value;
 public:
 	/// @param value A Token értéke
 	/// @param line A sor, ahol a Token elkezdődött
 	/// @param column Az oszlop, ahol a Token elkezdődött
-	SymbolToken(char value, int line, int column);
+	SymbolToken(std::string value, int line, int column);
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
 
 	/// Checks if the tokens matches a character
 	/// @param value The character to check against
-	bool match(char value) const;
-	char value() const;
+	bool match(std::string value) const;
+	/// A Token értéke
+	std::string getValue() const;
 };
 
 /// Token, amit a nyelv nem ismer fel
 class UnknownToken : public Token
 {
 private:
-	/// @param value A Token értéke
+	/// A Token értéke
 	char value;
 public:
 	/// @param value A Token értéke
@@ -141,6 +145,7 @@ public:
 	UnknownToken(char value, int line, int column);
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
-	char value() const;
+	/// A Token értéke
+	char getValue() const;
 };
 

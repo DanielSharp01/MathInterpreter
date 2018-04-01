@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-/// Used to seperate strings of text into tokens understood by the language
+/// A forráskódot Token-ekre bontja szét
 class Tokenizer
 {
 private:
@@ -40,9 +40,21 @@ private:
 	/// Ami lehet SymbolToken vagy UnknownToken
 	Token* parseSymbol();
 
+	/// Megmondja végére értünk-e a feldolgozott forráskódnak
+	bool isOver();
+
 	/// Visszaadja az éppen feldolgozott karaktert
 	char currentChar();
 
-	/// Lép egyet és visszaadja az éppen feldolgozott karaktert
+	/// Visszaadja az éppen feldolgozott karaktert, majd utána lép egyet
 	char nextChar();
+
+	/// Eggyel előrenéz, de nem lép a következő karakterre
+	char lookAheadChar();
+
+	bool isWhitespace(char c);
+
+	bool isDigit(char c);
+
+	bool isAlphaNumeric(char c);
 };

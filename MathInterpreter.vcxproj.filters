@@ -18,6 +18,12 @@
     <ClCompile Include="Program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tokenizer.h">
@@ -29,7 +35,7 @@
     <ClInclude Include="Expression.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tokens\Statement.h">
+    <ClInclude Include="Statement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
