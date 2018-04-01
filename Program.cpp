@@ -2,6 +2,8 @@
 
 #include "Tokenizer.h"
 #include "Token.h"
+#include "Parser.h"
+#include "Expression.h"
 
 int main()
 {
@@ -14,8 +16,20 @@ int main()
 		for (Token* token : tokens)
 		{
 			std::cout << *token << std::endl;
+		}
+		
+		Parser parser(tokens.cbegin());
+		Expression* expression;
+		while ((expression = parser.parseExpression()) != nullptr)
+		{
+			std::cout << *expression;
+			delete expression;
+		}
+		for (Token* token : tokens)
+		{
 			delete token;
 		}
+
 		getline(std::cin, line);
 	}
 

@@ -4,6 +4,16 @@ Token::Token(int line, int column)
 	: line(line), column(column)
 { }
 
+int Token::getLine()
+{
+	return line;
+}
+
+int Token::getColumn()
+{
+	return column;
+}
+
 std::ostream & operator<<(std::ostream & os, const Token & other)
 {
 	other.print(os);
@@ -16,7 +26,7 @@ NumberToken::NumberToken(double value, int line, int column)
 
 void NumberToken::print(std::ostream & os) const
 {
-	os << "NumberToken \"" << value << "\"";
+	os << "NumberToken \"" << value << "\" @line " << line << " @column " << column;;
 }
 
 bool NumberToken::match(TokenType type) const
@@ -35,7 +45,7 @@ BoolToken::BoolToken(bool value, int line, int column)
 
 void BoolToken::print(std::ostream & os) const
 {
-	os << "BoolToken \"" << value << "\"";
+	os << "BoolToken \"" << value << "\" @line " << line << " @column " << column;;
 }
 
 bool BoolToken::match(TokenType type) const
@@ -54,7 +64,7 @@ UndefinedToken::UndefinedToken(int line, int column)
 
 void UndefinedToken::print(std::ostream & os) const
 {
-	os << "UndefinedToken";
+	os << "UndefinedToken @line " << line << " @column " << column;;
 }
 
 bool UndefinedToken::match(TokenType type) const
@@ -68,7 +78,7 @@ IdentifierToken::IdentifierToken(std::string value, int line, int column)
 
 void IdentifierToken::print(std::ostream & os) const
 {
-	os << "IdentifierToken \"" << value << "\"";
+	os << "IdentifierToken \"" << value << "\" @line " << line << " @column " << column;;
 }
 
 bool IdentifierToken::match(TokenType type) const
@@ -87,7 +97,7 @@ SymbolToken::SymbolToken(std::string value, int line, int column)
 
 void SymbolToken::print(std::ostream & os) const
 {
-	os << "SymbolToken \"" << value << "\"";
+	os << "SymbolToken \"" << value << "\" @line " << line << " @column " << column;;
 }
 
 bool SymbolToken::match(TokenType type) const
@@ -111,7 +121,7 @@ UnknownToken::UnknownToken(char value, int line, int column)
 
 void UnknownToken::print(std::ostream & os) const
 {
-	os << "UnknownToken \"" << value << "\"";
+	os << "UnknownToken \"" << value << "\" @line " << line << " @column " << column;;
 }
 
 bool UnknownToken::match(TokenType type) const
@@ -122,4 +132,18 @@ bool UnknownToken::match(TokenType type) const
 char UnknownToken::getValue() const
 {
 	return value;
+}
+
+EndingToken::EndingToken(int line, int column)
+	: Token(line, column)
+{ }
+
+void EndingToken::print(std::ostream & os) const
+{
+	os << "EndingToken @line " << line << " @column " << column;
+}
+
+bool EndingToken::match(TokenType type) const
+{
+	return type == TokenType::Ending;
 }

@@ -20,8 +20,8 @@ private:
 	/// A feldogozott oszlop száma (1-gyel kezdődik)
 	int currColumn = 1;
 public:
-	/// Beállítja a Tokenizer-t egy forráskódra
 	/// @param source Forráskód
+	/// @note Minden forráskódhoz külön Tokenizer példány kell
 	Tokenizer(std::string source);
 
 	/// Visszaadja a forráskódból előállított Token listát

@@ -99,11 +99,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Expression.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Statement.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />

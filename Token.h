@@ -17,13 +17,15 @@ enum class TokenType
 	/// Változó illetve függvénynév
 	Identifier,
 	/// Token, amit a nyelv nem ismer fel
-	Unknown
+	Unknown,
+	/// A forráskód végére helyezett Token (sentrynek és utolsó sor/utolsó oszlop miatt)
+	Ending
 };
 
 /// A nyelv alapegysége
 class Token
 {
-private:
+protected:
 	/// A sor, ahol a Token elkezdődött
 	int line;
 	/// Az oszlop, ahol a Token elkezdődött
@@ -41,6 +43,11 @@ public:
 	/// A leszármazott osztályok ezen keresztül tudják "megmondani", milyen típusúak.
 	/// @param type Típus, amit viszgálunk
 	virtual bool match(TokenType type) const = 0;
+
+	/// A sor, ahol a Token elkezdődött
+	int getLine();
+	/// Az oszlop, ahol a Token elkezdődött
+	int getColumn();
 };
 
 /// Kiír egy Token-t az output streamre 
@@ -147,5 +154,16 @@ public:
 	bool match(TokenType type) const override;
 	/// A Token értéke
 	char getValue() const;
+};
+
+/// A forráskód végére helyezett Token (sentrynek és utolsó sor/utolsó oszlop miatt)
+class EndingToken : public Token
+{
+public:
+	/// @param line A sor, ahol a Token elkezdődött
+	/// @param column Az oszlop, ahol a Token elkezdődött
+	EndingToken(int line, int column);
+	void print(std::ostream& os) const override;
+	bool match(TokenType type) const override;
 };
 

@@ -28,6 +28,7 @@ std::vector<Token*> Tokenizer::tokenize()
 		}
 	}
 
+	tokens.push_back(new EndingToken(currLine, currColumn));
 	return tokens;
 }
 
@@ -55,7 +56,7 @@ Token* Tokenizer::parseWord()
 	do
 	{
 		buffer += nextChar();
-	} while (isAlphaNumeric(currentChar()));
+	} while (currentChar() == '_' || isAlphaNumeric(currentChar()));
 
 	if (buffer == "undefined")
 		return new UndefinedToken(line, column);
@@ -115,6 +116,20 @@ char Tokenizer::currentChar()
 
 char Tokenizer::nextChar()
 {
+	if (currentChar() == '\n')
+	{
+		currLine++;
+		currColumn = 1;
+	}
+	else if (currentChar() == '\t')
+	{
+		currColumn += 4;
+	}
+	else if (currentChar() != '\r')
+	{
+		currColumn++;
+	}
+
 	return source[currIndex++];
 }
 
