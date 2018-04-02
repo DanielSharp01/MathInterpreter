@@ -107,11 +107,15 @@
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Context.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="FunctionPointer.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Statement.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="Expression.h" />
+    <ClInclude Include="TypedValue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

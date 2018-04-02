@@ -26,6 +26,7 @@ public:
 	virtual bool is(ValueType type) const = 0;
 };
 
+/// Egy valós szám
 class NumberValue : public TypedValue
 {
 private:
@@ -38,6 +39,7 @@ public:
 	double getValue();
 };
 
+/// "igaz"/"hamis" érték
 class BoolValue : public TypedValue
 {
 private:
@@ -51,6 +53,7 @@ public:
 	bool getValue();
 };
 
+/// Függvény
 class FunctionValue : public TypedValue
 {
 private:
@@ -64,6 +67,7 @@ public:
 	std::shared_ptr<FunctionPointer> getValue();
 };
 
+/// Nem meghatározott érték
 class UndefinedValue : public TypedValue
 {
 	bool is(ValueType type) const override;
