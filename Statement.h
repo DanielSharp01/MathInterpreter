@@ -47,9 +47,11 @@ public:
 	/// @param line A sor, ahol elkezdődött
 	/// @param column Az oszlop, ahol elkezdődött
 	VariableDeclaration(std::string identifier, const Expression* expression, int line, int column);
+	~VariableDeclaration();
 	void print(std::ostream& os, std::string spacing = "") const override;
 };
 
+/// Függvény delaráció
 class FunctionDeclaration : public Statement
 {
 private:

@@ -26,6 +26,11 @@ VariableDeclaration::VariableDeclaration(std::string identifier, const Expressio
 	: identifier(identifier), expression(expression), Statement(line, column)
 { }
 
+VariableDeclaration::~VariableDeclaration()
+{
+	delete expression;
+}
+
 void VariableDeclaration::print(std::ostream & os, std::string spacing) const
 {
 	os << spacing << "VariableDeclaration  @line " << line << " @column " << column << std::endl;
