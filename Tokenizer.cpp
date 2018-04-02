@@ -1,7 +1,7 @@
 #include "Tokenizer.h"
 
-Tokenizer::Tokenizer(std::string source)
-	: source(source)
+Tokenizer::Tokenizer(std::string source, std::function<void(std::string, int, int)> errorCallback)
+	: source(source), errorCallback(errorCallback)
 { }
 
 std::vector<Token*> Tokenizer::tokenize()
@@ -101,6 +101,7 @@ Token* Tokenizer::parseSymbol()
 	}
 	else
 	{
+		errorCallback("Unknown symbol", line, column);
 		return new UnknownToken(buffer[0], line, column);
 	}
 }

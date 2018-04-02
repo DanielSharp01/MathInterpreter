@@ -3,6 +3,7 @@
 #include "Token.h"
 #include <vector>
 #include <string>
+#include <functional>
 
 /// A forráskódot Token-ekre bontja szét
 class Tokenizer
@@ -10,19 +11,18 @@ class Tokenizer
 private:
 	/// Feldolgozásra váró forráskód
 	std::string source;
-
 	/// A feldolgozott karakter jelenlegi indexe (0-val kezdődik)
 	int currIndex = 0;
-
 	/// A feldogozott sor száma (1-gyel kezdődik)
 	int currLine = 1;
-
 	/// A feldogozott oszlop száma (1-gyel kezdődik)
 	int currColumn = 1;
+	/// Tokenizer hiba esetén meghívott callback
+	std::function<void(std::string, int, int)> errorCallback;
 public:
 	/// @param source Forráskód
 	/// @note Minden forráskódhoz külön Tokenizer példány kell
-	Tokenizer(std::string source);
+	Tokenizer(std::string source, std::function<void(std::string, int, int)> errorCallback);
 
 	/// Visszaadja a forráskódból előállított Token listát
 	/// @note A tokenize függvény akárhányszor meghívható, de mindig ugyanazt az eredményt adja, nem érdemes többször meghívni.
@@ -52,9 +52,13 @@ private:
 	/// Eggyel előrenéz, de nem lép a következő karakterre
 	char lookAheadChar();
 
+	/// Whitespace-e?
+	/// @param c Vizsgált karakter
 	bool isWhitespace(char c);
-
+	/// Számjegy-e?
+	/// @param c Vizsgált karakter
 	bool isDigit(char c);
-
+	/// Betű vagy számjegy-e?
+	/// @param c Vizsgált karakter
 	bool isAlphaNumeric(char c);
 };

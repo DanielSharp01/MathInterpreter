@@ -5,8 +5,8 @@
 #include "Expression.h"
 #include <string>
 
-Parser::Parser(std::vector<Token*>::const_iterator tokensIt)
-	: tokensIt(tokensIt)
+Parser::Parser(std::vector<Token*>::const_iterator tokensIt, std::function<void(std::string, int, int)> errorCallback)
+	: tokensIt(tokensIt), errorCallback(errorCallback)
 { }
 
 Statement* Parser::parseStatement()
@@ -51,7 +51,10 @@ Statement* Parser::parseStatement()
 					nextToken();
 					iteratorRollBack++;
 				}
-				else; //TODO: ERROR
+				else
+				{
+					errorCallback("Expected closing ')'", currentLine(), currentColumn());
+				}
 
 				if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
 				{
@@ -61,8 +64,17 @@ Statement* Parser::parseStatement()
 			}
 		}
 	}
+	else if (currentToken()->match(TokenType::Symbol))
+	{
+		std::string str = "Unexpected symbol ";
+		str += ((SymbolToken*)nextToken())->getValue();
+		errorCallback(str, currentLine(), currentColumn());
+		return parseStatement();
+	}
 
 	rollBack(iteratorRollBack);
+	if (isOver())
+		return nullptr;
 	return parseExpression();
 }
 
@@ -87,7 +99,7 @@ Expression* Parser::parseConditionalExpression()
 		}
 		else
 		{
-			//TODO: ERROR
+			errorCallback("Expected right side of the conditional/ternary expression", currentLine(), currentColumn());
 			return new ConditionalExpression(condition, left, nullptr, line, column);
 		}
 	}
@@ -245,12 +257,15 @@ Expression* Parser::parseFunctionCallExpression()
 			nextToken();
 			params.push_back(parseExpression());
 		} while (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(","));
-		
+
 		if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(")"))
 		{
 			nextToken();
 		}
-		else; //TODO: ERROR
+		else
+		{
+			errorCallback("Expected closing ')'", currentLine(), currentColumn());
+		}
 
 		return new FunctionCallExpression(called, params, line, column);
 	}
@@ -270,7 +285,10 @@ Expression* Parser::parseParanthesesExpression()
 	{
 		nextToken();
 	}
-	else; //TODO: ERROR
+	else
+	{
+		errorCallback("Expected closing ')'", currentLine(), currentColumn());
+	}
 
 	return expr;
 }
@@ -302,8 +320,8 @@ Expression * Parser::parseBaseExpression()
 	}
 	else
 	{
-		//TODO: ERROR
-		return nullptr;
+		errorCallback("Expected expression", currentLine(), currentColumn());
+		return new UndefinedExpression(currentLine(), currentColumn());
 	}
 }
 

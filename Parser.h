@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 
 class Token;
 class Expression;
@@ -11,10 +12,12 @@ class Parser
 private:
 	/// Token lista iterátorja
 	std::vector<Token*>::const_iterator tokensIt;
+	/// Parser hiba esetén meghívott callback
+	std::function<void(std::string, int, int)> errorCallback;
 public:
 	/// @ tokenIt Token lista iterátorja
 	/// @note Minden Token listához külön Tokenizer példány kell
-	Parser(std::vector<Token*>::const_iterator tokensIt);
+	Parser(std::vector<Token*>::const_iterator tokensIt, std::function<void(std::string, int, int)> errorCallback);
 
 	/// Feldolgozza a következõ parancsot/állítást
 	Statement* parseStatement();
