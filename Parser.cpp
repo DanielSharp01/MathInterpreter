@@ -1,18 +1,74 @@
 #include "Parser.h"
 
 #include "Token.h"
+#include "Statement.h"
 #include "Expression.h"
+#include <string>
 
 Parser::Parser(std::vector<Token*>::const_iterator tokensIt)
 	: tokensIt(tokensIt)
 { }
 
-Expression* Parser::parseExpression()
+Statement* Parser::parseStatement()
 {
+	int line = currentLine();
+	int column = currentColumn();
+	int iteratorRollBack = 0;
+
+	bool rollingBack = false;
+
 	if (isOver())
 		return nullptr;
-	else
-		parseConditionalExpression();
+	else if (currentToken()->match(TokenType::Identifier))
+	{
+		std::string identifier = ((IdentifierToken*)nextToken())->getValue();
+		iteratorRollBack++;
+		if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
+		{
+			nextToken();
+			return new VariableDeclaration(identifier, parseExpression(), line, column);
+		}
+		else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("("))
+		{
+			std::vector<std::string> params;
+			do
+			{
+				nextToken();
+				iteratorRollBack++;
+				if (currentToken()->match(TokenType::Identifier))
+				{
+					params.push_back(((IdentifierToken*)nextToken())->getValue());
+					iteratorRollBack++;
+				}
+				else
+					rollingBack = true;
+			} while (!rollingBack && currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(","));
+
+			if (!rollingBack)
+			{
+				if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(")"))
+				{
+					nextToken();
+					iteratorRollBack++;
+				}
+				else; //TODO: ERROR
+
+				if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
+				{
+					nextToken();
+					return new FunctionDeclaration(identifier, params, parseExpression(), line, column);
+				}
+			}
+		}
+	}
+
+	rollBack(iteratorRollBack);
+	return parseExpression();
+}
+
+Expression* Parser::parseExpression()
+{
+	return parseConditionalExpression();
 }
 
 Expression* Parser::parseConditionalExpression()
@@ -264,6 +320,11 @@ Token * Parser::currentToken()
 Token * Parser::nextToken()
 {
 	return *tokensIt++;
+}
+
+void Parser::rollBack(int by)
+{
+	tokensIt -= by;
 }
 
 int Parser::currentLine()

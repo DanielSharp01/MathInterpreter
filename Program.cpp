@@ -3,7 +3,7 @@
 #include "Tokenizer.h"
 #include "Token.h"
 #include "Parser.h"
-#include "Expression.h"
+#include "Statement.h"
 
 int main()
 {
@@ -19,11 +19,11 @@ int main()
 		}
 		
 		Parser parser(tokens.cbegin());
-		Expression* expression;
-		while ((expression = parser.parseExpression()) != nullptr)
+		Statement* stat;
+		while ((stat = parser.parseStatement()) != nullptr)
 		{
-			std::cout << *expression;
-			delete expression;
+			std::cout << *stat;
+			delete stat;
 		}
 		for (Token* token : tokens)
 		{

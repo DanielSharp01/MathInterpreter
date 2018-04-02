@@ -4,6 +4,7 @@
 
 class Token;
 class Expression;
+class Statement;
 
 class Parser
 {
@@ -14,10 +15,12 @@ public:
 	/// @ tokenIt Token lista iterátorja
 	/// @note Minden Token listához külön Tokenizer példány kell
 	Parser(std::vector<Token*>::const_iterator tokensIt);
-	/// Feldolgozza a következõ kifejezést
-	Expression* parseExpression();
 
+	/// Feldolgozza a következõ parancsot/állítást
+	Statement* parseStatement();
 private:
+	/// Feldolgozza a következõ kifejezést
+	Expression * parseExpression();
 	/// Feldolgozza a következõ ConditionalExpression-t vagy átadja a feldolgozást a parseOrExpression-nek
 	Expression * parseConditionalExpression();
 	/// Feldolgozza a következõ OrExpression-t vagy átadja a feldolgozást a parseAndExpression-nek
@@ -49,6 +52,9 @@ private:
 	Token* currentToken();
 	/// Visszaadja a jelenleg feldolgozott Token-t, majd lép egyet
 	Token* nextToken();
+	/// Visszalépteti az iterátort
+	/// @param by Ennyit léptet vissza
+	void rollBack(int by);
 	/// Visszaadja a jelenleg feldolgozott Token kezdõ sorát
 	/// @see Token::line
 	int currentLine();
