@@ -1,17 +1,20 @@
 #include "Statement.h"
 #include "Expression.h"
 #include <string>
+#include "Context.h"
+#include "TypedValue.h"
+#include "FunctionPointer.h"
 
 Statement::Statement(int line, int column)
 	: line(line), column(column)
 { }
 
-int Statement::getLine()
+int Statement::getLine() const
 {
 	return line;
 }
 
-int Statement::getColumn()
+int Statement::getColumn() const
 {
 	return column;
 }
@@ -39,6 +42,11 @@ void VariableDeclaration::print(std::ostream & os, std::string spacing) const
 	expression->print(os, spacing + "      ");
 }
 
+void VariableDeclaration::run(GlobalContext & context) const
+{
+	context.defineVariable(identifier, expression->evaluate(context));
+}
+
 FunctionDeclaration::FunctionDeclaration(std::string identifier, std::vector<std::string> parameters, const Expression* expression, int line, int column)
 	: identifier(identifier), parameters(parameters), expression(expression), Statement(line, column)
 { }
@@ -54,4 +62,9 @@ void FunctionDeclaration::print(std::ostream & os, std::string spacing) const
 	}
 	os << spacing << "   Expression: " << identifier << std::endl;
 	expression->print(os, spacing + "      ");
+}
+
+void FunctionDeclaration::run(GlobalContext & context) const
+{
+	context.defineVariable(identifier, std::make_shared<FunctionValue>(std::make_shared<FunctionPointer>(identifier, parameters, expression)));
 }

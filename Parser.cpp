@@ -64,17 +64,8 @@ Statement* Parser::parseStatement()
 			}
 		}
 	}
-	else if (currentToken()->match(TokenType::Symbol))
-	{
-		std::string str = "Unexpected symbol ";
-		str += ((SymbolToken*)nextToken())->getValue();
-		errorCallback(str, currentLine(), currentColumn());
-		return parseStatement();
-	}
 
 	rollBack(iteratorRollBack);
-	if (isOver())
-		return nullptr;
 	return parseExpression();
 }
 

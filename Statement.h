@@ -3,6 +3,8 @@
 #include <ostream>
 #include <vector>
 
+class GlobalContext;
+
 /// A nyelv egy állítása, amit letudunk futtatni
 class Statement
 {
@@ -15,14 +17,20 @@ public:
 	/// @param line A sor, ahol elkezdődött
 	/// @param column Az oszlop, ahol elkezdődött
 	Statement(int line, int column);
+	virtual ~Statement() {}
+
 	/// Kiírja magát az output streamre
 	/// @param os A stream, amire kiírunk
 	virtual void print(std::ostream& os, std::string spacing = "") const = 0;
+	
+	/// Lefuttatja magát egy bizonyos kontextussal
+	/// @param context A változó táblát tartalmazó kontextus
+	virtual void run(GlobalContext& context) const = 0;
 
 	/// A sor, ahol elkezdődött
-	int getLine();
+	int getLine() const;
 	/// Az oszlop, ahol elkezdődött
-	int getColumn();
+	int getColumn() const;
 };
 
 /// Kiír egy Statement-et az output streamre 
@@ -49,6 +57,7 @@ public:
 	VariableDeclaration(std::string identifier, const Expression* expression, int line, int column);
 	~VariableDeclaration();
 	void print(std::ostream& os, std::string spacing = "") const override;
+	void run(GlobalContext& context) const override;
 };
 
 /// Függvény delaráció
@@ -69,4 +78,5 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	FunctionDeclaration(std::string identifier, std::vector<std::string> parameters, const Expression* expression, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	void run(GlobalContext& context) const override;
 };

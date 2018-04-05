@@ -17,11 +17,12 @@ private:
 	int currLine = 1;
 	/// A feldogozott oszlop száma (1-gyel kezdődik)
 	int currColumn = 1;
-	/// Tokenizer hiba esetén meghívott callback
+	/// Tokenizer hiba esetén meghívott callback (Hibaüzenet, Hibás sor, Hibás oszlop)
 	std::function<void(std::string, int, int)> errorCallback;
 public:
-	/// @param source Forráskód
 	/// @note Minden forráskódhoz külön Tokenizer példány kell
+	/// @param source Forráskód
+	/// @param errorCallback Tokenizer hiba esetén meghívott callback (Hibaüzenet, Hibás sor, Hibás oszlop)
 	Tokenizer(std::string source, std::function<void(std::string, int, int)> errorCallback);
 
 	/// Visszaadja a forráskódból előállított Token listát

@@ -12,11 +12,12 @@ class Parser
 private:
 	/// Token lista iterátorja
 	std::vector<Token*>::const_iterator tokensIt;
-	/// Parser hiba esetén meghívott callback
+	/// Parser hiba esetén meghívott callback (Hibaüzenet, Hibás sor, Hibás oszlop)
 	std::function<void(std::string, int, int)> errorCallback;
 public:
 	/// @ tokenIt Token lista iterátorja
 	/// @note Minden Token listához külön Tokenizer példány kell
+	/// @param errorCallback Parser hiba esetén meghívott callback (Hibaüzenet, Hibás sor, Hibás oszlop)
 	Parser(std::vector<Token*>::const_iterator tokensIt, std::function<void(std::string, int, int)> errorCallback);
 
 	/// Feldolgozza a következõ parancsot/állítást

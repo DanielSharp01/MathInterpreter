@@ -2,33 +2,30 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
-class FunctionFrame;
-class Expression;
-class FunctionCallExpression;
 class Context;
+class Expression;
+class TypedValue;
 
-/// Függvény pointer
+/// Egy meghívható függvényt reprezentál
 class FunctionPointer
 {
 private:
-	/// Kontextus, ami tárolja a változókat és a Stack-et
-	const Context& context;
 	/// A függvény azonosítója
 	std::string identifier;
-	/// A függvény paraméterei
+	/// A függvény paramétereinek azonosítói
 	std::vector<std::string> parameters;
-	/// A függvény által kiértékelt kifejezés
+	/// A függvény kifejezése (ezt értékeljük ki híváskor)
 	const Expression* expression;
 public:
-	/// @param context Kontextus, ami tárolja a változókat és a Stack-et
 	/// @param identifier A függvény azonosítója
-	/// @param parameters A függvény paraméterei
-	/// @param expression A függvény által kiértékelt kifejezés 
-	FunctionPointer(const Context& context, std::string identifier, std::vector<std::string> parameters, const Expression* expressions);
+	/// @param parameters A függvény paramétereinek azonosítói
+	/// @param expression A függvény kifejezése (ezt értékeljük ki híváskor)
+	FunctionPointer(std::string indetifier, const std::vector<std::string>& parameters, const Expression* expression);
+	~FunctionPointer();
 
-	/// Függvény hívás
-	/// @param params A paraméterezett kifejezések
-	/// @param context Kontextus, ami tárolja a változókat és a Stack-et
-	void call(std::vector<const Expression*> params);
+	/// @param callingContext A hívó kontextus
+	/// @param paramValues A függvény paraméterei
+	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues);
 };

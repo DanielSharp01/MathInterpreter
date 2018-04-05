@@ -99,16 +99,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Context.cpp" />
     <ClCompile Include="Expression.cpp" />
+    <ClCompile Include="FunctionPointer.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Statement.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
+    <ClCompile Include="TypedValue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.h" />
-    <ClInclude Include="Frame.h" />
     <ClInclude Include="FunctionPointer.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Statement.h" />

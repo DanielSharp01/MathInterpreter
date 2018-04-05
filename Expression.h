@@ -2,12 +2,23 @@
 
 #include "Statement.h"
 #include <vector>
+#include <memory>
+
+class TypedValue;
+class Context;
 
 /// Egy kiértékelhető kifejezés
 class Expression : public Statement
 {
 public:
+	/// @param line A sor, ahol elkezdődött
+	/// @param column Az oszlop, ahol elkezdődött
 	Expression(int line, int column);
+	virtual ~Expression() {};
+	/// Kiértékel egy kifejezést
+	/// @param context Hívó kontextus (amely feloldja az azonosítókat)
+	virtual std::shared_ptr<const TypedValue> evaluate(const Context& context) const = 0;
+	void run(GlobalContext& context) const override;
 };
 
 /// Egy szám
@@ -22,6 +33,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	NumberExpression(double value, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Egy igaz/hamis érték
@@ -36,6 +48,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	BoolExpression(bool value, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Egy azonosító (amely valószínüleg rezolválható egy értékké)
@@ -50,6 +63,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	IdentifierExpression(std::string value, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Egy undefined érték
@@ -60,6 +74,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	UndefinedExpression(int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Egy egy operandusú műveletet reprezentál
@@ -73,7 +88,7 @@ public:
 	/// @param line A sor, ahol elkezdődött
 	/// @param column Az oszlop, ahol elkezdődött
 	UnaryExpression(const Expression* first, int line, int column);
-	~UnaryExpression();
+	~UnaryExpression() override;
 };
 
 /// Egy két operandusú műveletet reprezentál
@@ -90,7 +105,7 @@ public:
 	/// @param line A sor, ahol elkezdődött
 	/// @param column Az oszlop, ahol elkezdődött
 	BinaryExpression(const Expression* first, const Expression* second, int line, int column);
-	~BinaryExpression();
+	~BinaryExpression() override;
 };
 
 /// Egy három operandusú műveletet reprezentál
@@ -111,7 +126,7 @@ public:
 	/// @param line A sor, ahol elkezdődött
 	/// @param column Az oszlop, ahol elkezdődött
 	TernaryExpression(const Expression* first, const Expression* second, const Expression* third, int line, int column);
-	~TernaryExpression();
+	~TernaryExpression() override;
 };
 
 /// Feltételes (ternary) kifejezés három operandussal
@@ -125,6 +140,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	ConditionalExpression(const Expression* first, const Expression* second, const Expression* third, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Vagy kifejezés két operandussal
@@ -137,6 +153,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	OrExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// És kifejezés két operandussal
@@ -149,6 +166,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	AndExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Nagyobb mint relációs kifejezés két operandussal
@@ -161,6 +179,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	GreaterExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Kisebb mint relációs kifejezés két operandussal
@@ -173,6 +192,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	LessExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Nagyobb vagy egyenlő relációs kifejezés két operandussal
@@ -185,6 +205,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	GreaterEqualsExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Kisebb vagy egyenlő relációs kifejezés két operandussal
@@ -197,6 +218,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	LessEqualsExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Egyenlő relációs kifejezés két operandussal
@@ -209,6 +231,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	EqualsExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Nem egyenlő relációs kifejezés két operandussal
@@ -221,6 +244,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	NotEqualsExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Összeadás kifejezés két operandussal
@@ -233,6 +257,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	AddExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Kivonás kifejezés két operandussal
@@ -245,6 +270,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	SubExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Szorzás kifejezés két operandussal
@@ -257,6 +283,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	MulExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Osztás kifejezés két operandussal
@@ -269,6 +296,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	DivExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Modulo kifejezés két operandussal
@@ -281,6 +309,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	ModExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 /// Hatványozás kifejezés két operandussal
@@ -293,6 +322,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	PowExpression(const Expression* first, const Expression* second, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 class NegExpression : public UnaryExpression
@@ -303,6 +333,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	NegExpression(const Expression* first, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 class NotExpression : public UnaryExpression
@@ -313,6 +344,7 @@ public:
 	/// @param column Az oszlop, ahol elkezdődött
 	NotExpression(const Expression* first, int line, int column);
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
 class FunctionCallExpression : public Expression
@@ -324,4 +356,5 @@ public:
 	FunctionCallExpression(const Expression* callable, std::vector<const Expression*> parameters, int line, int column);
 	~FunctionCallExpression();
 	void print(std::ostream& os, std::string spacing = "") const override;
+	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };

@@ -5,9 +5,16 @@
 #include "Parser.h"
 #include "Statement.h"
 #include <string>
+#include "Context.h"
+#include "TypedValue.h"
+#include "Expression.h"
 
 int main()
 {
+	GlobalContext context([&](std::string msg, int line, int col) {
+		std::cout << "RUNTIME ERROR: " << msg << " @line " << line << " @column " << col << std::endl;
+	});
+
 	std::string line;
 	getline(std::cin, line);
 	while (line != "quit")
@@ -28,7 +35,7 @@ int main()
 		Statement* stat;
 		while ((stat = parser.parseStatement()) != nullptr)
 		{
-			std::cout << *stat;
+			stat->run(context);
 			delete stat;
 		}
 

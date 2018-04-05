@@ -6,8 +6,10 @@ Simple interpreter for mathematical expressions written in C++
 - [x] Parsing expressions
 - [x] Parsing statements
 - [x] Tokenizer/Parser errors
-- [ ] Expression evaluation
-- [ ] Identifier resolution
-- [ ] Variable declaration
-- [ ] Function declaration
-- [ ] Function evaluation with custom stack emulation
+- [x] Expression evaluation
+- [x] Identifier resolution
+- [x] Variable declaration
+- [x] Function declaration
+- [x] Function evaluation
+- [ ] Function recursion "optimization"
+- [ ] Templated expression/value
