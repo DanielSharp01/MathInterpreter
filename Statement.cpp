@@ -66,5 +66,5 @@ void FunctionDeclaration::print(std::ostream & os, std::string spacing) const
 
 void FunctionDeclaration::run(GlobalContext & context) const
 {
-	context.defineVariable(identifier, std::make_shared<FunctionValue>(std::make_shared<FunctionPointer>(identifier, parameters, expression)));
+	context.defineVariable(identifier, std::make_shared<FunctionValue>(std::make_shared<FunctionPointer>(parameters, expression)));
 }

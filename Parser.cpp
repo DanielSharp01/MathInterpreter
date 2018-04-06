@@ -309,7 +309,7 @@ Expression * Parser::parseBaseExpression()
 		nextToken();
 		return new UndefinedExpression(line, column);
 	}
-	else
+	else //TODO: Fix recursive parser mess up
 	{
 		errorCallback("Expected expression", currentLine(), currentColumn());
 		return new UndefinedExpression(currentLine(), currentColumn());

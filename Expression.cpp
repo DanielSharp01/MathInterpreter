@@ -333,7 +333,11 @@ std::shared_ptr<const TypedValue> EqualsExpression::evaluate(const Context & con
 {
 	std::shared_ptr<const TypedValue> a = first->evaluate(context);
 	std::shared_ptr<const TypedValue> b = second->evaluate(context);
-	if (!a->is(b->getType()))
+	if (a->is(ValueType::Error) || b->is(ValueType::Error))
+	{
+		return std::make_shared<ErrorValue>();
+	}
+	else if (!a->is(b->getType()))
 	{
 		return std::make_shared<BoolValue>(false);
 	}
@@ -349,7 +353,7 @@ std::shared_ptr<const TypedValue> EqualsExpression::evaluate(const Context & con
 	{
 		return std::make_shared<BoolValue>(std::dynamic_pointer_cast<const BoolValue>(a)->getValue() == std::dynamic_pointer_cast<const BoolValue>(b)->getValue());
 	}
-	else if (a->is(ValueType::Function))
+	else //if (a->is(ValueType::Function))
 	{
 		return std::make_shared<BoolValue>(std::dynamic_pointer_cast<const FunctionValue>(a)->getValue() == std::dynamic_pointer_cast<const FunctionValue>(b)->getValue());
 	}
@@ -370,7 +374,11 @@ std::shared_ptr<const TypedValue> NotEqualsExpression::evaluate(const Context & 
 {
 	std::shared_ptr<const TypedValue> a = first->evaluate(context);
 	std::shared_ptr<const TypedValue> b = second->evaluate(context);
-	if (!a->is(b->getType()))
+	if (a->is(ValueType::Error) || b->is(ValueType::Error))
+	{
+		return std::make_shared<ErrorValue>();
+	}
+	else if (!a->is(b->getType()))
 	{
 		return std::make_shared<BoolValue>(true);
 	}
@@ -386,7 +394,7 @@ std::shared_ptr<const TypedValue> NotEqualsExpression::evaluate(const Context & 
 	{
 		return std::make_shared<BoolValue>(std::dynamic_pointer_cast<const BoolValue>(a)->getValue() != std::dynamic_pointer_cast<const BoolValue>(b)->getValue());
 	}
-	else if (a->is(ValueType::Function))
+	else //if (a->is(ValueType::Function))
 	{
 		return std::make_shared<BoolValue>(std::dynamic_pointer_cast<const FunctionValue>(a)->getValue() != std::dynamic_pointer_cast<const FunctionValue>(b)->getValue());
 	}

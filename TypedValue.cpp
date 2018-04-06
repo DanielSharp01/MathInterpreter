@@ -1,5 +1,7 @@
 #include "TypedValue.h"
 
+#include "FunctionPointer.h"
+
 TypedValue::TypedValue(ValueType type)
 	: type(type)
 { }
@@ -54,8 +56,7 @@ std::shared_ptr<FunctionPointer> FunctionValue::getValue() const
 
 void FunctionValue::print(std::ostream & os) const
 {
-	// TODO: Come back and show the name and parameters
-	os << "function";
+	os << "function " << value->getSignature();
 }
 
 UndefinedValue::UndefinedValue()
