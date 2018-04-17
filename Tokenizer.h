@@ -59,6 +59,9 @@ private:
 	/// Számjegy-e?
 	/// @param c Vizsgált karakter
 	bool isDigit(char c);
+	/// Betű-e?
+	/// @param c Vizsgált karakter
+	bool isLetter(char c);
 	/// Betű vagy számjegy-e?
 	/// @param c Vizsgált karakter
 	bool isAlphaNumeric(char c);

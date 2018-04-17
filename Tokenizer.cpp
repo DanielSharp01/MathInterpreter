@@ -47,7 +47,20 @@ Token* Tokenizer::parseNumber()
 		buffer += nextChar();
 	}
 
-	return new NumberToken(strtod(buffer.c_str(), nullptr), line, column);
+	if (currentChar() == '_' || isLetter(currentChar()))
+	{
+		errorCallback("Expected symbol or whitespace before identifier", line, column);
+		do
+		{
+			buffer += nextChar();
+		} while (currentChar() == '_' || isAlphaNumeric(currentChar()));
+
+		return new UnknownToken(buffer, line, column);
+	}
+	else
+	{
+		return new NumberToken(strtod(buffer.c_str(), nullptr), line, column);
+	}
 }
 
 Token* Tokenizer::parseWord()
@@ -103,7 +116,7 @@ Token* Tokenizer::parseSymbol()
 	else
 	{
 		errorCallback("Unknown symbol", line, column);
-		return new UnknownToken(buffer[0], line, column);
+		return new UnknownToken(std::string(buffer, 1), line, column);
 	}
 }
 
@@ -151,7 +164,12 @@ bool Tokenizer::isDigit(char c)
 	return c >= '0' && c <= '9';
 }
 
+bool Tokenizer::isLetter(char c)
+{
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
 bool Tokenizer::isAlphaNumeric(char c)
 {
-	return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+	return isDigit(c) || isLetter(c);
 }

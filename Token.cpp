@@ -115,7 +115,7 @@ std::string SymbolToken::getValue() const
 	return value;
 }
 
-UnknownToken::UnknownToken(char value, int line, int column)
+UnknownToken::UnknownToken(std::string value, int line, int column)
 	: Token(line, column), value(value)
 { }
 
@@ -129,7 +129,7 @@ bool UnknownToken::match(TokenType type) const
 	return type == TokenType::Unknown;
 }
 
-char UnknownToken::getValue() const
+std::string UnknownToken::getValue() const
 {
 	return value;
 }

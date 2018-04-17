@@ -144,16 +144,16 @@ class UnknownToken : public Token
 {
 private:
 	/// A Token értéke
-	char value;
+	std::string value;
 public:
 	/// @param value A Token értéke
 	/// @param line A sor, ahol a Token elkezdődött
 	/// @param column Az oszlop, ahol a Token elkezdődött
-	UnknownToken(char value, int line, int column);
+	UnknownToken(std::string value, int line, int column);
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
 	/// A Token értéke
-	char getValue() const;
+	std::string getValue() const;
 };
 
 /// A forráskód végére helyezett Token (sentrynek és utolsó sor/utolsó oszlop miatt)
