@@ -79,6 +79,15 @@ Expression* Parser::parseConditionalExpression()
 	int line = currentLine();
 	int column = currentColumn();
 	Expression* condition = parseOrExpression();
+	
+	//Ennek itt kell lennie, mert amúgy ':' karakter magában '?' nélkül elkezdene loopolni
+	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(":"))
+	{
+		errorCallback("Unexpected symbol ':', you may have missed the '?' from the conditional expression", currentLine(), currentColumn());
+		nextToken();
+		return parseConditionalExpression();
+	}
+
 	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("?"))
 	{
 		nextToken();
@@ -309,9 +318,21 @@ Expression * Parser::parseBaseExpression()
 		nextToken();
 		return new UndefinedExpression(line, column);
 	}
-	else //TODO: Fix recursive parser mess up
+	else
 	{
-		errorCallback("Expected expression", currentLine(), currentColumn());
+		//Ide kerül minden token, amit nem lehet expression-ben használni, mert ha azt nem skippeljük, akkor elkezd loopolni a parseExpression függvény
+		if (currentToken()->match(TokenType::Unknown))
+			nextToken(); //Már ki lett írva mint Tokenizer hiba
+		else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
+		{
+			errorCallback("Unexpected symbol '" + ((SymbolToken*)currentToken())->getValue() + "'", currentLine(), currentColumn());
+			nextToken();
+		}
+		else
+		{
+			errorCallback("Expected expression", currentLine(), currentColumn());
+		}
+		
 		return new UndefinedExpression(currentLine(), currentColumn());
 	}
 }
