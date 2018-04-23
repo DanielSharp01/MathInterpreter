@@ -51,16 +51,17 @@ Statement* Parser::parseStatement()
 					nextToken();
 					iteratorRollBack++;
 				}
-				else
-				{
-					errorCallback("Expected closing ')'", currentLine(), currentColumn());
-				}
-
+				else rollingBack = true;
+			}
+			
+			if (!rollingBack)
+			{
 				if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
 				{
 					nextToken();
 					return new FunctionDeclaration(identifier, params, parseExpression(), line, column);
 				}
+				else rollingBack = true;
 			}
 		}
 	}
@@ -71,31 +72,31 @@ Statement* Parser::parseStatement()
 
 Expression* Parser::parseExpression()
 {
-	return parseConditionalExpression();
+	return parseConditionalExpression(false);
 }
 
-Expression* Parser::parseConditionalExpression()
+Expression* Parser::parseConditionalExpression(bool ternaryCalls)
 {
 	int line = currentLine();
 	int column = currentColumn();
 	Expression* condition = parseOrExpression();
 	
 	//Ennek itt kell lennie, mert amúgy ':' karakter magában '?' nélkül elkezdene loopolni
-	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(":"))
+	if (!ternaryCalls && currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(":"))
 	{
 		errorCallback("Unexpected symbol ':', you may have missed the '?' from the conditional expression", currentLine(), currentColumn());
 		nextToken();
-		return parseConditionalExpression();
+		return parseExpression();
 	}
 
 	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("?"))
 	{
 		nextToken();
-		Expression* left = parseConditionalExpression();
+		Expression* left = parseConditionalExpression(true);
 		if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(":"))
 		{
 			nextToken();
-			return new ConditionalExpression(condition, left, parseConditionalExpression(), line, column);
+			return new ConditionalExpression(condition, left, parseConditionalExpression(true), line, column);
 		}
 		else
 		{

@@ -34,7 +34,6 @@ std::vector<Token*> Tokenizer::tokenize()
 
 Token* Tokenizer::parseNumber()
 {
-	//TODO: It's an error if a letter comes in the number, it is parsed seperately right now
 	bool dot = false;
 	int line = currLine, column = currColumn;
 	std::string buffer;

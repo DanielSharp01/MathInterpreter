@@ -325,6 +325,7 @@ public:
 	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
+/// Negálás kifejezés
 class NegExpression : public UnaryExpression
 {
 public:
@@ -336,6 +337,7 @@ public:
 	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
+/// Logikai negálás kifejezés
 class NotExpression : public UnaryExpression
 {
 public:
@@ -347,12 +349,20 @@ public:
 	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
 };
 
+/// Függvényhívás kifejezés
 class FunctionCallExpression : public Expression
 {
 private:
+	/// Meghívott kifejzés
 	const Expression* callable;
+	/// Hívás paraméterei
 	std::vector<const Expression*> parameters;
 public:
+	/// @param callable
+	/// @param parameters Hívás paraméterei
+	/// @param first Az első operandus
+	/// @param line A sor, ahol elkezdődött
+	/// @param column Az oszlop, ahol elkezdődött
 	FunctionCallExpression(const Expression* callable, std::vector<const Expression*> parameters, int line, int column);
 	~FunctionCallExpression();
 	void print(std::ostream& os, std::string spacing = "") const override;

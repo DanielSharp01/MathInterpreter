@@ -4,17 +4,17 @@
 #include "Expression.h"
 #include <sstream>
 
-FunctionPointer::FunctionPointer(const std::vector<std::string>& parameters, const Expression* expression)
+ExpressionFunctionPointer::ExpressionFunctionPointer(const std::vector<std::string>& parameters, const Expression* expression)
 	:parameters(parameters), expression(expression)
 { }
 
-std::shared_ptr<const TypedValue> FunctionPointer::call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues)
+std::shared_ptr<const TypedValue> ExpressionFunctionPointer::call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues)
 {
 	FunctionContext context = callingContext.makeFunctionContext(parameters, paramValues);
 	return expression->evaluate(context);
 }
 
-std::string FunctionPointer::getSignature() const
+std::string ExpressionFunctionPointer::getSignature() const
 {
 	std::stringstream ss;
 	ss << "(";
@@ -26,7 +26,7 @@ std::string FunctionPointer::getSignature() const
 	return ss.str();
 }
 
-FunctionPointer::~FunctionPointer()
+ExpressionFunctionPointer::~ExpressionFunctionPointer()
 {
 	delete expression;
 }

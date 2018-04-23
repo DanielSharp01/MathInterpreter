@@ -26,7 +26,8 @@ private:
 	/// Feldolgozza a következõ kifejezést
 	Expression * parseExpression();
 	/// Feldolgozza a következõ ConditionalExpression-t vagy átadja a feldolgozást a parseOrExpression-nek
-	Expression * parseConditionalExpression();
+	/// @param ternaryCalls Ha rekurzívan parseoljuk a feltételes kifejezést, akkor lehet az elején ':', amúgy nem
+	Expression * parseConditionalExpression(bool ternaryCalls);
 	/// Feldolgozza a következõ OrExpression-t vagy átadja a feldolgozást a parseAndExpression-nek
 	Expression* parseOrExpression();
 	/// Feldolgozza a következõ AndExpression-t vagy átadja a feldolgozást a parseRelationalExpression-nek

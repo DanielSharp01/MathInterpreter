@@ -29,7 +29,7 @@ int main()
 		for (Token* token : tokens)
 		{
 			std::cout << *token << std::endl;
-		}		
+		}
 
 		Parser parser(tokens.cbegin(), [&](std::string msg, int line, int col) {
 			std::cout << "PARSER ERROR: " << msg << " @line " << line << " @column " << col << std::endl;
@@ -42,7 +42,7 @@ int main()
 			if (parseTimeError == 0) stat->run(context);
 			delete stat;
 		}
-		
+
 		for (Token* token : tokens)
 		{
 			delete token;
