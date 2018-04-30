@@ -238,6 +238,11 @@ Expression* Parser::parseUnaryExpression()
 		nextToken();
 		return new NegExpression(parseUnaryExpression(), line, column);
 	}
+	else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("+"))
+	{
+		nextToken();
+		return parseUnaryExpression();
+	}
 	else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("!"))
 	{
 		nextToken();
