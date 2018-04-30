@@ -35,6 +35,8 @@ Statement* Parser::parseStatement()
 			{
 				nextToken();
 				iteratorRollBack++;
+				if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(")")) break;
+
 				if (currentToken()->match(TokenType::Identifier))
 				{
 					params.push_back(((IdentifierToken*)nextToken())->getValue());
@@ -256,6 +258,8 @@ Expression* Parser::parseFunctionCallExpression()
 		do
 		{
 			nextToken();
+			if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(")")) break;
+
 			params.push_back(parseExpression());
 		} while (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(","));
 

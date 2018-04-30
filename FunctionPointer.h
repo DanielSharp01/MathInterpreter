@@ -15,7 +15,7 @@ public:
 	/// Függvény meghívása
 	/// @param callingContext A hívó kontextus
 	/// @param paramValues A függvény paraméterei
-	virtual std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues) = 0;
+	virtual std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<const Expression*> params, int startLine, int startColumn) = 0;
 
 	/// A függvény fejléce (kiíráshoz)
 	virtual std::string getSignature() const = 0;
@@ -35,6 +35,6 @@ public:
 	ExpressionFunctionPointer(const std::vector<std::string>& parameters, const Expression* expression);
 	~ExpressionFunctionPointer();
 
-	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues) override;
+	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<const Expression*> params, int startLine, int startColumn) override;
 	std::string getSignature() const override;
 };

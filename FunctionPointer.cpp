@@ -8,9 +8,15 @@ ExpressionFunctionPointer::ExpressionFunctionPointer(const std::vector<std::stri
 	:parameters(parameters), expression(expression)
 { }
 
-std::shared_ptr<const TypedValue> ExpressionFunctionPointer::call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues)
+std::shared_ptr<const TypedValue> ExpressionFunctionPointer::call(const Context& callingContext, std::vector<const Expression*> params, int startLine, int startColumn)
 {
-	FunctionContext context = callingContext.makeFunctionContext(parameters, paramValues);
+	std::vector<std::shared_ptr<const TypedValue>> values;
+	for (const Expression* param : params)
+	{
+		values.push_back(param->evaluate(callingContext));
+	}
+
+	FunctionContext context = callingContext.makeFunctionContext(parameters, values);
 	return expression->evaluate(context);
 }
 
@@ -18,11 +24,13 @@ std::string ExpressionFunctionPointer::getSignature() const
 {
 	std::stringstream ss;
 	ss << "(";
+	int i = 0;
 	for (std::string param : parameters)
 	{
-		ss << param << ", ";
+		ss << param << (i < parameters.size() - 1 ? ", " : "");
+		i++;
 	}
-	ss << parameters[parameters.size() - 1] << ")";
+	ss << ")";
 	return ss.str();
 }
 

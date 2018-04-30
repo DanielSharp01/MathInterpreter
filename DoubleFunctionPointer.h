@@ -4,6 +4,7 @@
 #include "Context.h"
 #include "TypedValue.h"
 #include <functional>
+#include "Expression.h"
 
 /// Valós n->1 built in CPP függvény
 template <int n>
@@ -22,25 +23,30 @@ public:
 		: cppFunc(cppFunc)
 	{ }
 
-	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues) override
+	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<const Expression*> params, int startLine, int startColumn) override
 	{
+		std::vector<const Expression*>::const_iterator it = params.cbegin();
+		std::shared_ptr<const TypedValue> a;
 		bool error = false;
-		if (paramValues.size() < 1)
+		if (params.size() < 1)
 		{
-			//TODO: Workaround needed for line and column numbers
-			callingContext.logError("Operand must be a number in built in function", 0, 0);
+			callingContext.logError("Function must have at least one operand", startLine, startColumn);
 			error = true;
 		}
-		else if (!paramValues[0]->is(ValueType::Number))
+
+		if (params.size() >= 1)
 		{
-			if (!paramValues[0]->is(ValueType::Error))
-				callingContext.logError("Operand must be a number in built in function", 0, 0);
-			error = true;
+			a = (*it)->evaluate(callingContext);
+			if (!a->is(ValueType::Number))
+			{
+				if (!a->is(ValueType::Error)) callingContext.logError("Operand must be a number", (*it)->getLine(), (*it)->getColumn());
+				error = true;
+			}
 		}
 		
 		if (error) return std::make_shared<ErrorValue>();
 
-		return std::make_shared<NumberValue>(cppFunc(std::dynamic_pointer_cast<const NumberValue>(paramValues[0])->getValue()));
+		return std::make_shared<NumberValue>(cppFunc(std::dynamic_pointer_cast<const NumberValue>(a)->getValue()));
 	}
 
 	std::string getSignature() const override
@@ -62,37 +68,43 @@ public:
 		: cppFunc(cppFunc)
 	{ }
 
-	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<std::shared_ptr<const TypedValue>> paramValues) override
+	std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<const Expression*> params, int startLine, int startColumn) override
 	{
-		bool error;
-		if (paramValues.size() < 1)
+		std::vector<const Expression*>::const_iterator it = params.cbegin();
+		std::shared_ptr<const TypedValue> a, b;
+		bool error = false;
+		
+		if (params.size() < 2)
 		{
-			//TODO: Workaround needed for line and column numbers
-			callingContext.logError("Operand must be a number in built in function", 0, 0);
-			error = true;
-		}
-		else if (!paramValues[0]->is(ValueType::Number))
-		{
-			if (!paramValues[0]->is(ValueType::Error))
-				callingContext.logError("Operand must be a number in built in function", 0, 0);
+			callingContext.logError("Function must have at least two operands", startLine, startColumn);
 			error = true;
 		}
 
-		if (paramValues.size() < 2)
+		if (params.size() >= 1)
 		{
-			callingContext.logError("Operand must be a number in built in function", 0, 0);
-			error = true;
+			a = (*it)->evaluate(callingContext);
+			if (!a->is(ValueType::Number))
+			{
+				if (!a->is(ValueType::Error)) callingContext.logError("Operand must be a number", (*it)->getLine(), (*it)->getColumn());
+				error = true;
+			}
 		}
-		else if (!paramValues[1]->is(ValueType::Number))
+
+		if (params.size() >= 2)
 		{
-			if (!paramValues[0]->is(ValueType::Error))
-				callingContext.logError("Operand must be a number in built in function", 0, 0);
-			error = true;
+			it++;
+			b = (*it)->evaluate(callingContext);
+			if (!b->is(ValueType::Number))
+			{
+				if (!b->is(ValueType::Error)) callingContext.logError("Operand must be a number", (*it)->getLine(), (*it)->getColumn());
+				error = true;
+			}
 		}
 		
+
 		if (error) return std::make_shared<ErrorValue>();
 
-		return std::make_shared<NumberValue>(cppFunc(std::dynamic_pointer_cast<const NumberValue>(paramValues[0])->getValue(), std::dynamic_pointer_cast<const NumberValue>(paramValues[1])->getValue()));
+		return std::make_shared<NumberValue>(cppFunc(std::dynamic_pointer_cast<const NumberValue>(a)->getValue(), std::dynamic_pointer_cast<const NumberValue>(b)->getValue()));
 	}
 
 	std::string getSignature() const override

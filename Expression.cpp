@@ -664,11 +664,11 @@ std::shared_ptr<const TypedValue> FunctionCallExpression::evaluate(const Context
 		return std::make_shared<ErrorValue>();
 	}
 
-	std::vector<std::shared_ptr<const TypedValue>> values;
+	std::vector<const Expression*> params;
 	for (const Expression* param : parameters)
 	{
-		values.push_back(param->evaluate(context));
+		params.push_back(param);
 	}
 
-	return std::dynamic_pointer_cast<const FunctionValue>(func)->getValue()->call(context, values);
+	return std::dynamic_pointer_cast<const FunctionValue>(func)->getValue()->call(context, parameters, callable->getLine(), callable->getColumn());
 }
