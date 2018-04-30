@@ -67,7 +67,7 @@ atan(x)
 atan2(x, y)
 sqrt(x)
 ```
-Their parameters must be always supplied, contrary to user functions, and must all be numbers.
+Their parameters must always be supplied, contrary to user functions, and must all be numbers.
 
 ## Built in constants
 
