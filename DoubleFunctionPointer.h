@@ -30,7 +30,7 @@ public:
 		bool error = false;
 		if (params.size() < 1)
 		{
-			callingContext.logError("Function must have at least one operand", startLine, startColumn);
+			callingContext.logError("Function must have at least one parameter", startLine, startColumn);
 			error = true;
 		}
 
@@ -39,7 +39,7 @@ public:
 			a = (*it)->evaluate(callingContext);
 			if (!a->is(ValueType::Number))
 			{
-				if (!a->is(ValueType::Error)) callingContext.logError("Operand must be a number", (*it)->getLine(), (*it)->getColumn());
+				if (!a->is(ValueType::Error)) callingContext.logError("Parameter must be a number", (*it)->getLine(), (*it)->getColumn());
 				error = true;
 			}
 		}
@@ -76,7 +76,7 @@ public:
 		
 		if (params.size() < 2)
 		{
-			callingContext.logError("Function must have at least two operands", startLine, startColumn);
+			callingContext.logError("Function must have at least two parameters", startLine, startColumn);
 			error = true;
 		}
 
@@ -85,7 +85,7 @@ public:
 			a = (*it)->evaluate(callingContext);
 			if (!a->is(ValueType::Number))
 			{
-				if (!a->is(ValueType::Error)) callingContext.logError("Operand must be a number", (*it)->getLine(), (*it)->getColumn());
+				if (!a->is(ValueType::Error)) callingContext.logError("Parameter must be a number", (*it)->getLine(), (*it)->getColumn());
 				error = true;
 			}
 		}
@@ -96,7 +96,7 @@ public:
 			b = (*it)->evaluate(callingContext);
 			if (!b->is(ValueType::Number))
 			{
-				if (!b->is(ValueType::Error)) callingContext.logError("Operand must be a number", (*it)->getLine(), (*it)->getColumn());
+				if (!b->is(ValueType::Error)) callingContext.logError("Parameter must be a number", (*it)->getLine(), (*it)->getColumn());
 				error = true;
 			}
 		}
