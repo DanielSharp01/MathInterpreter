@@ -17,7 +17,7 @@ ValueType TypedValue::getType() const
 }
 
 NumberValue::NumberValue(double value)
-	: value(value), TypedValue(ValueType::Number)
+	: TypedValue(ValueType::Number), value(value)
 { }
 
 double NumberValue::getValue() const
@@ -31,7 +31,7 @@ void NumberValue::print(std::ostream & os) const
 }
 
 BoolValue::BoolValue(bool value)
-	: value(value), TypedValue(ValueType::Bool)
+	: TypedValue(ValueType::Bool), value(value)
 { }
 
 bool BoolValue::getValue() const
@@ -45,7 +45,7 @@ void BoolValue::print(std::ostream & os) const
 }
 
 FunctionValue::FunctionValue(std::shared_ptr<FunctionPointer> value)
-	: value(value), TypedValue(ValueType::Function)
+	: TypedValue(ValueType::Function), value(value)
 { }
 
 

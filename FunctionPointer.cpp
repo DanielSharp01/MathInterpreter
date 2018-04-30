@@ -18,9 +18,9 @@ std::string ExpressionFunctionPointer::getSignature() const
 {
 	std::stringstream ss;
 	ss << "(";
-	for (int i = 0; i < parameters.size() - 1; i++)
+	for (std::string param : parameters)
 	{
-		ss << parameters[i] << ", ";
+		ss << param << ", ";
 	}
 	ss << parameters[parameters.size() - 1] << ")";
 	return ss.str();

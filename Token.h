@@ -34,6 +34,8 @@ public:
 	/// @param line A sor, ahol a Token elkezdődött
 	/// @param column Az oszlop, ahol a Token elkezdődött
 	Token(int line, int column);
+	
+	virtual ~Token() = default;
 
 	/// Kiírja magát az output streamre
 	/// @param os A stream, amire kiírunk

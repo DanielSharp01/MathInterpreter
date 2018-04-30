@@ -34,7 +34,7 @@ GlobalContext::GlobalContext(std::function<void(std::string, int, int)> errorCal
 	defineVariable("sqrt", std::make_shared<const FunctionValue>(std::make_shared<DoubleFunctionPointer<1>>(nv_sqrt)));
 
 	defineVariable("PI", std::make_shared<const NumberValue>(3.1415926535897932384626433832795028841971693993751058209749445923078164062));
-	defineVariable("E", std::make_shared<const NumberValue>(std::exp(1.0)));
+	defineVariable("E", std::make_shared<const NumberValue>(exp(1)));
 }
 
 void GlobalContext::defineVariable(std::string identifier, std::shared_ptr<const TypedValue> value)
@@ -62,7 +62,7 @@ FunctionContext GlobalContext::makeFunctionContext(const std::vector<std::string
 }
 
 FunctionContext::FunctionContext(const GlobalContext& callingContext, const std::vector<std::string>& identifiers, const std::vector<std::shared_ptr<const TypedValue>>& values)
-	: callingContext(callingContext), Context()
+	: callingContext(callingContext)
 {
 	std::vector<std::string>::const_iterator keyIt = identifiers.cbegin();
 	std::vector<std::shared_ptr<const TypedValue>>::const_iterator valueIt = values.cbegin();

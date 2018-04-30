@@ -121,7 +121,7 @@ Token* Tokenizer::parseSymbol()
 
 bool Tokenizer::isOver()
 {
-	return currIndex >= source.size();
+	return (unsigned int)currIndex >= source.size();
 }
 
 char Tokenizer::currentChar()

@@ -26,7 +26,7 @@ std::ostream & operator<<(std::ostream & os, const Statement& other)
 }
 
 VariableDeclaration::VariableDeclaration(std::string identifier, const Expression * expression, int line, int column)
-	: identifier(identifier), expression(expression), Statement(line, column)
+	: Statement(line, column), identifier(identifier), expression(expression)
 { }
 
 VariableDeclaration::~VariableDeclaration()
@@ -48,7 +48,7 @@ void VariableDeclaration::run(GlobalContext & context) const
 }
 
 FunctionDeclaration::FunctionDeclaration(std::string identifier, std::vector<std::string> parameters, const Expression* expression, int line, int column)
-	: identifier(identifier), parameters(parameters), expression(expression), Statement(line, column)
+	: Statement(line, column), identifier(identifier), parameters(parameters), expression(expression)
 { }
 
 void FunctionDeclaration::print(std::ostream & os, std::string spacing) const

@@ -16,7 +16,7 @@ void Expression::run(GlobalContext& context) const
 }
 
 NumberExpression::NumberExpression(double value, int line, int column)
-	: value(value), Expression(line, column)
+	: Expression(line, column), value(value)
 { }
 
 void NumberExpression::print(std::ostream& os, std::string spacing) const
@@ -30,7 +30,7 @@ std::shared_ptr<const TypedValue> NumberExpression::evaluate(const Context & con
 }
 
 BoolExpression::BoolExpression(bool value, int line, int column)
-	: value(value), Expression(line, column)
+	: Expression(line, column), value(value)
 { }
 
 void BoolExpression::print(std::ostream& os, std::string spacing) const
@@ -44,7 +44,7 @@ std::shared_ptr<const TypedValue> BoolExpression::evaluate(const Context & conte
 }
 
 IdentifierExpression::IdentifierExpression(std::string value, int line, int column)
-	: value(value), Expression(line, column)
+	: Expression(line, column), value(value)
 { }
 
 void IdentifierExpression::print(std::ostream & os, std::string spacing) const
@@ -72,7 +72,7 @@ std::shared_ptr<const TypedValue> UndefinedExpression::evaluate(const Context & 
 }
 
 UnaryExpression::UnaryExpression(const Expression* first, int line, int column)
-	: first(first), Expression(line, column)
+	: Expression(line, column), first(first)
 { }
 
 UnaryExpression::~UnaryExpression()
@@ -81,7 +81,7 @@ UnaryExpression::~UnaryExpression()
 }
 
 BinaryExpression::BinaryExpression(const Expression* first, const Expression* second, int line, int column)
-	: first(first), second(second), Expression(line, column)
+	: Expression(line, column), first(first), second(second)
 { }
 
 BinaryExpression::~BinaryExpression()
@@ -91,7 +91,7 @@ BinaryExpression::~BinaryExpression()
 }
 
 TernaryExpression::TernaryExpression(const Expression* first, const Expression* second, const Expression* third, int line, int column)
-	: first(first), second(second), third(third), Expression(line, column)
+	: Expression(line, column), first(first), second(second), third(third)
 { }
 
 TernaryExpression::~TernaryExpression()
@@ -631,7 +631,7 @@ std::shared_ptr<const TypedValue> NotExpression::evaluate(const Context & contex
 }
 
 FunctionCallExpression::FunctionCallExpression(const Expression * callable, std::vector<const Expression*> parameters, int line, int column)
-	: callable(callable), parameters(parameters), Expression(line, column)
+	: Expression(line, column), callable(callable), parameters(parameters)
 { }
 
 FunctionCallExpression::~FunctionCallExpression()
