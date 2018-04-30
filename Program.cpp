@@ -26,10 +26,10 @@ int main()
 		});
 
 		std::vector<Token*> tokens = tokenizer.tokenize();
-		for (Token* token : tokens)
+		/*for (Token* token : tokens)
 		{
 			std::cout << *token << std::endl;
-		}
+		}*/
 
 		Parser parser(tokens.cbegin(), [&](std::string msg, int line, int col) {
 			std::cout << "PARSER ERROR: " << msg << " @line " << line << " @column " << col << std::endl;
