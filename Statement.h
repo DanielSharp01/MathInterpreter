@@ -69,7 +69,7 @@ private:
 	/// A függvény paraméterei
 	std::vector<std::string> parameters;
 	/// A függvény által kiértékelt kifejezés
-	const Expression* expression;
+	mutable const Expression* expression;
 public:
 	/// @param identifier A függvény azonosítója
 	/// @param parameters A függvény paraméterei
@@ -77,6 +77,7 @@ public:
 	/// @param line A sor, ahol elkezdődött
 	/// @param column Az oszlop, ahol elkezdődött
 	FunctionDeclaration(std::string identifier, std::vector<std::string> parameters, const Expression* expression, int line, int column);
+	~FunctionDeclaration();
 	void print(std::ostream& os, std::string spacing = "") const override;
 	void run(GlobalContext& context) const override;
 };

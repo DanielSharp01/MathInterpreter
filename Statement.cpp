@@ -31,7 +31,8 @@ VariableDeclaration::VariableDeclaration(std::string identifier, const Expressio
 
 VariableDeclaration::~VariableDeclaration()
 {
-	delete expression;
+	if (expression != nullptr)
+		delete expression;
 }
 
 void VariableDeclaration::print(std::ostream & os, std::string spacing) const
@@ -51,6 +52,12 @@ FunctionDeclaration::FunctionDeclaration(std::string identifier, std::vector<std
 	: Statement(line, column), identifier(identifier), parameters(parameters), expression(expression)
 { }
 
+FunctionDeclaration::~FunctionDeclaration()
+{
+	if (expression != nullptr)
+		delete expression;
+}
+
 void FunctionDeclaration::print(std::ostream & os, std::string spacing) const
 {
 	os << spacing << "FunctionDeclaration  @line " << line << " @column " << column << std::endl;
@@ -67,4 +74,5 @@ void FunctionDeclaration::print(std::ostream & os, std::string spacing) const
 void FunctionDeclaration::run(GlobalContext & context) const
 {
 	context.defineVariable(identifier, std::make_shared<FunctionValue>(std::make_shared<ExpressionFunctionPointer>(parameters, expression)));
+	expression = nullptr;
 }

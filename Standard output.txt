@@ -1,0 +1,24 @@
+See the full VS project @ https://github.com/DanielSharp01/MathInterpreter
+23. + 52a
+25 * * 8
+(5 + 7 * 8
+true ? 2
+true : 1
+true ? 2 : 1
+x + 5 = 8
+a = 8
+a = 
+a(x, y) =
+a(x, y =
+a(, , =
+sum(f, i, n) = i <= n ? f(i) + sum(f, i + 1, n) : 0
+g(x) = x^2
+sum(g, 1, 10)
+sum(g, 1, a^2)
+(undefined + 5) * true
+(true + 2) * 8
+undefined
+overload(a, b) = b == undefined ? a : a + b
+overload(3)
+overload(3, 2)
+quit

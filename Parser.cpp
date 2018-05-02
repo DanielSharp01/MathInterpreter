@@ -88,7 +88,7 @@ Expression* Parser::parseConditionalExpression(bool ternaryCalls)
 	{
 		errorCallback("Unexpected symbol ':', you may have missed the '?' from the conditional expression", currentLine(), currentColumn());
 		nextToken();
-		return parseExpression();
+		return condition;
 	}
 
 	if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("?"))

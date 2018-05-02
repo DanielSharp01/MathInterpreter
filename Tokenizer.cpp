@@ -114,7 +114,7 @@ Token* Tokenizer::parseSymbol()
 	}
 	else
 	{
-		errorCallback("Unknown symbol", line, column);
+		errorCallback("Unknown symbol '" + std::string(buffer, 1) + "'", line, column);
 		return new UnknownToken(std::string(buffer, 1), line, column);
 	}
 }
