@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Statement.h"
 #include <vector>
@@ -367,4 +367,5 @@ public:
 	~FunctionCallExpression();
 	void print(std::ostream& os, std::string spacing = "") const override;
 	std::shared_ptr<const TypedValue> evaluate(const Context& context) const override;
+};
 };

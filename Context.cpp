@@ -4,21 +4,21 @@
 #include "DoubleFunctionPointer.h"
 #include <math.h>
 
-/// Not overloaded cosine
+/// Nem overloadolt cos
 double nv_cos(double x) { return cos(x); }
-/// Not overloaded size
+/// Nem olverloadolt sin
 double nv_sin(double x) { return sin(x); }
-/// Not overloaded tangent
+/// Nem olverloadolt tan
 double nv_tan(double x) { return tan(x); }
-/// Not overloaded arccosine
+/// Nem olverloadolt arccos
 double nv_acos(double x) { return acos(x); }
-/// Not overloaded arccosine
+/// Nem olverloadolt arcsin
 double nv_asin(double x) { return asin(x); }
-/// Not overloaded arctangent 1 param
+/// Nem olverloadolt arctan
 double nv_atan(double x) { return atan(x); }
-/// Not overloaded arctangent 2 param
+/// Nem olverloadolt 2 paraméteres arctan
 double nv_atan2(double x, double y) { return atan2(x, y); }
-/// Not overloaded square root
+/// Nem olverloadolt négyzetgyök
 double nv_sqrt(double x) { return sqrt(x); }
 
 GlobalContext::GlobalContext(std::function<void(std::string, int, int)> errorCallback)

@@ -6,7 +6,7 @@
 #include <functional>
 #include "Expression.h"
 
-/// Valós n->1 built in CPP függvény
+/// ValÃ³s n->1 built in CPP fÃ¼ggvÃ©ny
 template <int n>
 class DoubleFunctionPointer;
 
@@ -14,11 +14,11 @@ template<>
 class DoubleFunctionPointer<1> : public FunctionPointer
 {
 private:
-	/// Built in CPP függvény
+	/// Built in CPP fÃ¼ggvÃ©ny
 	std::function<double(double)> cppFunc;
 public:
-	/// @param parameters A függvény paramétereinek azonosítói
-	/// @param expression A függvény kifejezése (ezt értékeljük ki híváskor)
+	/// @param parameters A fÃ¼ggvÃ©ny paramÃ©tereinek azonosÃ­tÃ³i
+	/// @param expression A fÃ¼ggvÃ©ny kifejezÃ©se (ezt Ã©rtÃ©keljÃ¼k ki hÃ­vÃ¡skor)
 	DoubleFunctionPointer(std::function<double(double)> cppFunc)
 		: cppFunc(cppFunc)
 	{ }
@@ -59,11 +59,11 @@ template<>
 class DoubleFunctionPointer<2> : public FunctionPointer
 {
 private:
-	/// Built in CPP függvény
+	/// Built in CPP fÃ¼ggvÃ©ny
 	std::function<double(double, double)> cppFunc;
 public:
-	/// @param parameters A függvény paramétereinek azonosítói
-	/// @param expression A függvény kifejezése (ezt értékeljük ki híváskor)
+	/// @param parameters A fÃ¼ggvÃ©ny paramÃ©tereinek azonosÃ­tÃ³i
+	/// @param expression A fÃ¼ggvÃ©ny kifejezÃ©se (ezt Ã©rtÃ©keljÃ¼k ki hÃ­vÃ¡skor)
 	DoubleFunctionPointer(std::function<double(double, double)> cppFunc)
 		: cppFunc(cppFunc)
 	{ }

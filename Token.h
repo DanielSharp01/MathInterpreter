@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <ostream>
 #include <string>
@@ -168,4 +168,6 @@ public:
 	void print(std::ostream& os) const override;
 	bool match(TokenType type) const override;
 };
+
+
 

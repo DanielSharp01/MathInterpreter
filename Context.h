@@ -10,40 +10,40 @@ class TypedValue;
 
 class FunctionContext;
 
-/// Változó azonosítokat old fel értékké
+/// VÃ¡ltozÃ³ azonosÃ­tokat old fel Ã©rtÃ©kkÃ©
 class Context
 {
 public:
-	/// Felold egy azonosítót értékké
-	/// @param indentifier Feloldandó azonosító
+	/// Felold egy azonosÃ­tÃ³t Ã©rtÃ©kkÃ©
+	/// @param indentifier FeloldandÃ³ azonosÃ­tÃ³
 	virtual std::shared_ptr<const TypedValue> resolveIdentifier(std::string identifier) const = 0;
 
-	/// Loggol egy hibát
-	/// @param message Hibaüzenet 
-	/// @param line Hibás sor (hiba elõfordulási helye)
-	/// @param column Hibás oszlop (hiba elõfordulási helye)
+	/// Loggol egy hibÃ¡t
+	/// @param message HibaÃ¼zenet 
+	/// @param line HibÃ¡s sor (hiba elÅ‘fordulÃ¡si helye)
+	/// @param column HibÃ¡s oszlop (hiba elÅ‘fordulÃ¡si helye)
 	virtual void logError(std::string message, int line, int column) const = 0;
 
-	/// Csinál egy függvénykontextust a megfelelõ paraméterekkel
-	/// @param indentifiers Paraméterek azonosítói
-	/// @param values Paraméterek értékei
+	/// CsinÃ¡l egy fÃ¼ggvÃ©nykontextust a megfelelÅ‘ paramÃ©terekkel
+	/// @param indentifiers ParamÃ©terek azonosÃ­tÃ³i
+	/// @param values ParamÃ©terek Ã©rtÃ©kei
 	virtual FunctionContext makeFunctionContext(const std::vector<std::string>& identifiers, const std::vector<std::shared_ptr<const TypedValue>>& values) const = 0;
 };
 
-/// Globális változók tárolója
+/// GlobÃ¡lis vÃ¡ltozÃ³k tÃ¡rolÃ³ja
 class GlobalContext : public Context
 {
 private:
-	/// Runtime hiba esetén meghívott callback (Hibaüzenet, Hibás sor, Hibás oszlop)
+	/// Runtime hiba esetÃ©n meghÃ­vott callback (HibaÃ¼zenet, HibÃ¡s sor, HibÃ¡s oszlop)
 	std::function<void(std::string, int, int)> errorCallback;
-	/// Azonosító - érték mapping (változók táblája)
+	/// AzonosÃ­tÃ³ - Ã©rtÃ©k mapping (vÃ¡ltozÃ³k tÃ¡blÃ¡ja)
 	std::unordered_map<std::string, std::shared_ptr<const TypedValue>> variables;
 public:
-	/// @param errorCallback Runtime hiba esetén meghívott callback (Hibaüzenet, Hibás sor, Hibás oszlop)
+	/// @param errorCallback Runtime hiba esetÃ©n meghÃ­vott callback (HibaÃ¼zenet, HibÃ¡s sor, HibÃ¡s oszlop)
 	GlobalContext(std::function<void(std::string, int, int)> errorCallback);
-	/// Definiál egy változó értéket
-	/// @param indentifier Változó azonosítója
-	/// @param value Változó értéke
+	/// DefiniÃ¡l egy vÃ¡ltozÃ³ Ã©rtÃ©ket
+	/// @param indentifier VÃ¡ltozÃ³ azonosÃ­tÃ³ja
+	/// @param value VÃ¡ltozÃ³ Ã©rtÃ©ke
 	void defineVariable(std::string identifier, std::shared_ptr<const TypedValue> value);
 	std::shared_ptr<const TypedValue> resolveIdentifier(std::string identifier) const override;
 	void logError(std::string message, int line, int column) const override;
@@ -51,18 +51,18 @@ public:
 
 };
 
-/// Függvényhívások változóit és egy GlobalContext-et tartalmaz
+/// FÃ¼ggvÃ©nyhÃ­vÃ¡sok vÃ¡ltozÃ³it Ã©s egy GlobalContext-et tartalmaz
 class FunctionContext : public Context
 {
 private:
-	/// Hívó kontextus, amivel feloldhatóak a globális változók
+	/// HÃ­vÃ³ kontextus, amivel feloldhatÃ³ak a globÃ¡lis vÃ¡ltozÃ³k
 	const GlobalContext& callingContext;
-	/// Azonosító - érték mapping (függvényparaméterek táblája)
+	/// AzonosÃ­tÃ³ - Ã©rtÃ©k mapping (fÃ¼ggvÃ©nyparamÃ©terek tÃ¡blÃ¡ja)
 	std::unordered_map<std::string, std::shared_ptr<const TypedValue>> parameters;
 public:
-	/// @param callingContext Hívó kontextus, amivel feloldhatóak a globális változók
-	/// @param indentifiers Paraméterek azonosítói
-	/// @param values Paraméterek értékei
+	/// @param callingContext HÃ­vÃ³ kontextus, amivel feloldhatÃ³ak a globÃ¡lis vÃ¡ltozÃ³k
+	/// @param indentifiers ParamÃ©terek azonosÃ­tÃ³i
+	/// @param values ParamÃ©terek Ã©rtÃ©kei
 	FunctionContext(const GlobalContext& callingContext, const std::vector<std::string>& identifiers, const std::vector<std::shared_ptr<const TypedValue>>& values);
 	std::shared_ptr<const TypedValue> resolveIdentifier(std::string identifier) const override;
 	void logError(std::string message, int line, int column) const override;

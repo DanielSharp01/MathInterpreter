@@ -8,30 +8,30 @@ class Context;
 class Expression;
 class TypedValue;
 
-/// Egy meghívható függvényt reprezentál
+/// Egy meghÃ­vhatÃ³ fÃ¼ggvÃ©nyt reprezentÃ¡l
 class FunctionPointer
 {
 public:
-	/// Függvény meghívása
-	/// @param callingContext A hívó kontextus
-	/// @param paramValues A függvény paraméterei
+	/// FÃ¼ggvÃ©ny meghÃ­vÃ¡sa
+	/// @param callingContext A hÃ­vÃ³ kontextus
+	/// @param paramValues A fÃ¼ggvÃ©ny paramÃ©terei
 	virtual std::shared_ptr<const TypedValue> call(const Context& callingContext, std::vector<const Expression*> params, int startLine, int startColumn) = 0;
 
-	/// A függvény fejléce (kiíráshoz)
+	/// A fÃ¼ggvÃ©ny fejlÃ©ce (kiÃ­rÃ¡shoz)
 	virtual std::string getSignature() const = 0;
 };
 
-/// Nem built in függvény
+/// Nem built in fÃ¼ggvÃ©ny
 class ExpressionFunctionPointer : public FunctionPointer
 {
 private:
-	/// A függvény paramétereinek azonosítói
+	/// A fÃ¼ggvÃ©ny paramÃ©tereinek azonosÃ­tÃ³i
 	std::vector<std::string> parameters;
-	/// A függvény kifejezése (ezt értékeljük ki híváskor)
+	/// A fÃ¼ggvÃ©ny kifejezÃ©se (ezt Ã©rtÃ©keljÃ¼k ki hÃ­vÃ¡skor)
 	const Expression* expression;
 public:
-	/// @param parameters A függvény paramétereinek azonosítói
-	/// @param expression A függvény kifejezése (ezt értékeljük ki híváskor)
+	/// @param parameters A fÃ¼ggvÃ©ny paramÃ©tereinek azonosÃ­tÃ³i
+	/// @param expression A fÃ¼ggvÃ©ny kifejezÃ©se (ezt Ã©rtÃ©keljÃ¼k ki hÃ­vÃ¡skor)
 	ExpressionFunctionPointer(const std::vector<std::string>& parameters, const Expression* expression);
 	~ExpressionFunctionPointer();
 

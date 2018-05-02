@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Token.h"
 #include <vector>
@@ -65,4 +65,5 @@ private:
 	/// Betű vagy számjegy-e?
 	/// @param c Vizsgált karakter
 	bool isAlphaNumeric(char c);
+};
 };

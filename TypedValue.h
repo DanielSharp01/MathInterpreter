@@ -5,90 +5,90 @@
 
 class FunctionPointer;
 
-/// TypedValue lehetséges típusai
+/// TypedValue lehetsÃ©ges tÃ­pusai
 enum class ValueType
 {
-	/// Egy valós szám
+	/// Egy valÃ³s szÃ¡m
 	Number,
-	/// "igaz"/"hamis" érték
+	/// "igaz"/"hamis" Ã©rtÃ©k
 	Bool,
-	/// Függvény
+	/// FÃ¼ggvÃ©ny
 	Function,
-	/// Nem meghatározott érték
+	/// Nem meghatÃ¡rozott Ã©rtÃ©k
 	Undefined,
-	/// Hibás érték
-	/// Típushibák esetén keletkezik kifejezések kiértékelésekor
+	/// HibÃ¡s Ã©rtÃ©k
+	/// TÃ­pushibÃ¡k esetÃ©n keletkezik kifejezÃ©sek kiÃ©rtÃ©kelÃ©sekor
 	Error
 };
 
-/// Típusos érték
+/// TÃ­pusos Ã©rtÃ©k
 class TypedValue
 {
 private:
-	/// Az érték típusa
+	/// Az Ã©rtÃ©k tÃ­pusa
 	ValueType type;
 public:
-	/// @param type Az érték típusa
+	/// @param type Az Ã©rtÃ©k tÃ­pusa
 	TypedValue(ValueType type);
-	/// Megmondja, hogy az érték egy bizonyos típusú-e
-	/// @param type Típus, amit vizsgálunk
+	/// Megmondja, hogy az Ã©rtÃ©k egy bizonyos tÃ­pusÃº-e
+	/// @param type TÃ­pus, amit vizsgÃ¡lunk
 	bool is(ValueType type) const;
-	/// Az érték típusa
+	/// Az Ã©rtÃ©k tÃ­pusa
 	ValueType getType() const;
 
-	/// Kiírja magát az output streamre
-	/// @param os A stream, amire kiírunk
+	/// KiÃ­rja magÃ¡t az output streamre
+	/// @param os A stream, amire kiÃ­runk
 	virtual void print(std::ostream& os) const = 0;
 };
 
-/// Kiír egy TypedValue-t az output streamre 
-/// @param os A stream, amire kiírunk
-/// @param other A TypedValue, amit kiír
+/// KiÃ­r egy TypedValue-t az output streamre 
+/// @param os A stream, amire kiÃ­runk
+/// @param other A TypedValue, amit kiÃ­r
 /// @see TypedValue::print
 std::ostream& operator<<(std::ostream& os, const TypedValue& other);
 
-/// Egy valós szám
+/// Egy valÃ³s szÃ¡m
 class NumberValue : public TypedValue
 {
 private:
-	/// Érték
+	/// Ã‰rtÃ©k
 	double value;
 public:
-	/// @param value Érték
+	/// @param value Ã‰rtÃ©k
 	NumberValue(double value);
 	double getValue() const;
 	void print(std::ostream& os) const override;
 };
 
-/// "igaz"/"hamis" érték
+/// "igaz"/"hamis" Ã©rtÃ©k
 class BoolValue : public TypedValue
 {
 private:
-	/// Érték
+	/// Ã‰rtÃ©k
 	bool value;
 public:
-	/// @param value Érték
+	/// @param value Ã‰rtÃ©k
 	BoolValue(bool value);
-	/// Érték
+	/// Ã‰rtÃ©k
 	bool getValue() const;
 	void print(std::ostream& os) const override;
 };
 
-/// Függvény
+/// FÃ¼ggvÃ©ny
 class FunctionValue : public TypedValue
 {
 private:
-	/// Érték
+	/// Ã‰rtÃ©k
 	std::shared_ptr<FunctionPointer> value;
 public:
-	/// @param value Érték
+	/// @param value Ã‰rtÃ©k
 	FunctionValue(std::shared_ptr<FunctionPointer> value);
-	/// Érték
+	/// Ã‰rtÃ©k
 	std::shared_ptr<FunctionPointer> getValue() const;
 	void print(std::ostream& os) const override;
 };
 
-/// Nem meghatározott érték
+/// Nem meghatÃ¡rozott Ã©rtÃ©k
 class UndefinedValue : public TypedValue
 {
 public:
@@ -96,8 +96,8 @@ public:
 	void print(std::ostream& os) const override;
 };
 
-/// Hibás érték
-/// Típushibák esetén keletkezik kifejezések kiértékelésekor
+/// HibÃ¡s Ã©rtÃ©k
+/// TÃ­pushibÃ¡k esetÃ©n keletkezik kifejezÃ©sek kiÃ©rtÃ©kelÃ©sekor
 class ErrorValue : public TypedValue
 {
 public:

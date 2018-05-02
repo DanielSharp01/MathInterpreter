@@ -10,60 +10,60 @@ class Statement;
 class Parser
 {
 private:
-	/// Token lista iter·torja
+	/// Token lista iter√°torja
 	std::vector<Token*>::const_iterator tokensIt;
-	/// Parser hiba esetÈn meghÌvott callback (Hiba¸zenet, Hib·s sor, Hib·s oszlop)
+	/// Parser hiba eset√©n megh√≠vott callback (Hiba√ºzenet, Hib√°s sor, Hib√°s oszlop)
 	std::function<void(std::string, int, int)> errorCallback;
 public:
-	/// @ tokenIt Token lista iter·torja
-	/// @note Minden Token list·hoz k¸lˆn Tokenizer pÈld·ny kell
-	/// @param errorCallback Parser hiba esetÈn meghÌvott callback (Hiba¸zenet, Hib·s sor, Hib·s oszlop)
+	/// @ tokenIt Token lista iter√°torja
+	/// @note Minden Token list√°hoz k√ºl√∂n Tokenizer p√©ld√°ny kell
+	/// @param errorCallback Parser hiba eset√©n megh√≠vott callback (Hiba√ºzenet, Hib√°s sor, Hib√°s oszlop)
 	Parser(std::vector<Token*>::const_iterator tokensIt, std::function<void(std::string, int, int)> errorCallback);
 
-	/// Feldolgozza a kˆvetkezı parancsot/·llÌt·st
+	/// Feldolgozza a k√∂vetkez≈ë parancsot/√°ll√≠t√°st
 	Statement* parseStatement();
 private:
-	/// Feldolgozza a kˆvetkezı kifejezÈst
+	/// Feldolgozza a k√∂vetkez≈ë kifejez√©st
 	Expression * parseExpression();
-	/// Feldolgozza a kˆvetkezı ConditionalExpression-t vagy ·tadja a feldolgoz·st a parseOrExpression-nek
-	/// @param ternaryCalls Ha rekurzÌvan parseoljuk a feltÈteles kifejezÈst, akkor lehet az elejÈn ':', am˙gy nem
+	/// Feldolgozza a k√∂vetkez≈ë ConditionalExpression-t vagy √°tadja a feldolgoz√°st a parseOrExpression-nek
+	/// @param ternaryCalls Ha rekurz√≠van parseoljuk a felt√©teles kifejez√©st, akkor lehet az elej√©n ':', am√∫gy nem
 	Expression * parseConditionalExpression(bool ternaryCalls);
-	/// Feldolgozza a kˆvetkezı OrExpression-t vagy ·tadja a feldolgoz·st a parseAndExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë OrExpression-t vagy √°tadja a feldolgoz√°st a parseAndExpression-nek
 	Expression* parseOrExpression();
-	/// Feldolgozza a kˆvetkezı AndExpression-t vagy ·tadja a feldolgoz·st a parseRelationalExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë AndExpression-t vagy √°tadja a feldolgoz√°st a parseRelationalExpression-nek
 	Expression* parseAndExpression();
-	/// Feldolgozza a kˆvetkezı RelationalExpression-t vagy ·tadja a feldolgoz·st a parseAddSubExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë RelationalExpression-t vagy √°tadja a feldolgoz√°st a parseAddSubExpression-nek
 	Expression* parseRelationalExpression();
-	/// Feldolgozza a kˆvetkezı AddExpression-t vagy SubExpressiont-t vagy ·tadja a feldolgoz·st a parseMulDivModExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë AddExpression-t vagy SubExpressiont-t vagy √°tadja a feldolgoz√°st a parseMulDivModExpression-nek
 	Expression* parseAddSubExpression();
-	/// Feldolgozza a kˆvetkezı MulExpression-t, DivExpression-t vagy ModExpressiont-t
-	/// vagy ·tadja a feldolgoz·st a parsePowExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë MulExpression-t, DivExpression-t vagy ModExpressiont-t
+	/// vagy √°tadja a feldolgoz√°st a parsePowExpression-nek
 	Expression* parseMulDivModExpression();
-	/// Feldolgozza a kˆvetkezı PowExpression-t vagy ·tadja a feldolgoz·st a parseUnaryExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë PowExpression-t vagy √°tadja a feldolgoz√°st a parseUnaryExpression-nek
 	Expression* parsePowExpression();
-	/// Feldolgozza a kˆvetkezı UnaryExpression-t vagy ·tadja a feldolgoz·st a parseFunctionCallExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë UnaryExpression-t vagy √°tadja a feldolgoz√°st a parseFunctionCallExpression-nek
 	Expression* parseUnaryExpression();
-	/// Feldolgozza a kˆvetkezı FunctionCallExpression-t vagy ·tadja a feldolgoz·st a parseBaseExpression-nek
+	/// Feldolgozza a k√∂vetkez≈ë FunctionCallExpression-t vagy √°tadja a feldolgoz√°st a parseBaseExpression-nek
 	Expression* parseFunctionCallExpression();
-	/// Feldolgozza a kˆvetkezı z·rÛjeles kifejezÈst
+	/// Feldolgozza a k√∂vetkez≈ë z√°r√≥jeles kifejez√©st
 	Expression* parseParanthesesExpression();
-	/// Feldolgozza a kˆvetkezı liter·lt vagy z·rÛjeles kifejezÈst
-	/// @note Hiba esetÈn Expected expression hiba¸zenetet dob
+	/// Feldolgozza a k√∂vetkez≈ë liter√°lt vagy z√°r√≥jeles kifejez√©st
+	/// @note Hiba eset√©n Expected expression hiba√ºzenetet dob
 	Expression* parseBaseExpression();
 
-	/// Megmondja vÈgÈre Èrt¸nk-e a feldolgozott Token sorozatnak
+	/// Megmondja v√©g√©re √©rt√ºnk-e a feldolgozott Token sorozatnak
 	bool isOver();
 	/// Visszaadja a jelenleg feldolgozott Token-t
 	Token* currentToken();
-	/// Visszaadja a jelenleg feldolgozott Token-t, majd lÈp egyet
+	/// Visszaadja a jelenleg feldolgozott Token-t, majd l√©p egyet
 	Token* nextToken();
-	/// VisszalÈpteti az iter·tort
-	/// @param by Ennyit lÈptet vissza
+	/// Visszal√©pteti az iter√°tort
+	/// @param by Ennyit l√©ptet vissza
 	void rollBack(int by);
-	/// Visszaadja a jelenleg feldolgozott Token kezdı sor·t
+	/// Visszaadja a jelenleg feldolgozott Token kezd≈ë sor√°t
 	/// @see Token::line
 	int currentLine();
-	/// Visszaadja a jelenleg feldolgozott Token kezdı sor·t
+	/// Visszaadja a jelenleg feldolgozott Token kezd≈ë sor√°t
 	/// @see Token::column
 	int currentColumn();
 };

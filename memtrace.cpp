@@ -205,10 +205,10 @@ START_NAMESPACE
 		}
 	}
 
-	/* ha nincs hiba, akkor 0-val tér vissza */
+	/* ha nincs hiba, akkor 0-val tÃ©r vissza */
 	int mem_check(void) {
 		initialize();
-		if(dying) return  2;    /* címzési hiba */
+		if(dying) return  2;    /* cÃ­mzÃ©si hiba */
 
 		if(registry.next) {
 			/*szivarog*/
@@ -218,7 +218,7 @@ START_NAMESPACE
 			fprintf(fperror, "Szivargas:\n");
 			print_registry_item(registry.next);
 			registry.next = NULL;
-			return 1;           /* memória fogyás */
+			return 1;           /* memÃ³ria fogyÃ¡s */
 		}
         return 0;
 	}
@@ -310,7 +310,7 @@ START_NAMESPACE
 END_NAMESPACE
 
 /*******************************************************************/
-/* C-stílusú memóriakezelés */
+/* C-stÃ­lusÃº memÃ³riakezelÃ©s */
 /*******************************************************************/
 
 #ifdef MEMTRACE_C
@@ -404,7 +404,7 @@ END_NAMESPACE
 #endif/*MEMTRACE_C*/
 
 /*******************************************************************/
-/* C++-stílusú memóriakezelés */
+/* C++-stÃ­lusÃº memÃ³riakezelÃ©s */
 /*******************************************************************/
 
 #ifdef MEMTRACE_CPP
@@ -421,7 +421,7 @@ START_NAMESPACE
 
 	void set_delete_call(int line, const char * file) {
 		initialize();
-		delete_call=pack(0,"",line,file); /*func értéke lényegtelen, majd felülírjuk*/
+		delete_call=pack(0,"",line,file); /*func Ã©rtÃ©ke lÃ©nyegtelen, majd felÃ¼lÃ­rjuk*/
 		delete_called = TRUE;
 	}
 

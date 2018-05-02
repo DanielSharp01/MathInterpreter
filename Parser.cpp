@@ -83,7 +83,7 @@ Expression* Parser::parseConditionalExpression(bool ternaryCalls)
 	int column = currentColumn();
 	Expression* condition = parseOrExpression();
 	
-	//Ennek itt kell lennie, mert amúgy ':' karakter magában '?' nélkül elkezdene loopolni
+	//Ennek itt kell lennie, mert amÃºgy ':' karakter magÃ¡ban '?' nÃ©lkÃ¼l elkezdene loopolni
 	if (!ternaryCalls && currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match(":"))
 	{
 		errorCallback("Unexpected symbol ':', you may have missed the '?' from the conditional expression", currentLine(), currentColumn());
@@ -330,9 +330,9 @@ Expression * Parser::parseBaseExpression()
 	}
 	else
 	{
-		//Ide kerül minden token, amit nem lehet expression-ben használni, mert ha azt nem skippeljük, akkor elkezd loopolni a parseExpression függvény
+		//Ide kerÃ¼l minden token, amit nem lehet expression-ben hasznÃ¡lni, mert ha azt nem skippeljÃ¼k, akkor elkezd loopolni a parseExpression fÃ¼ggvÃ©ny
 		if (currentToken()->match(TokenType::Unknown))
-			nextToken(); //Már ki lett írva mint Tokenizer hiba
+			nextToken(); //MÃ¡r ki lett Ã­rva mint Tokenizer hiba
 		else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
 		{
 			errorCallback("Unexpected symbol '" + ((SymbolToken*)currentToken())->getValue() + "'", currentLine(), currentColumn());

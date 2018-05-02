@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <ostream>
 #include <vector>
@@ -80,4 +80,5 @@ public:
 	~FunctionDeclaration();
 	void print(std::ostream& os, std::string spacing = "") const override;
 	void run(GlobalContext& context) const override;
+};
 };

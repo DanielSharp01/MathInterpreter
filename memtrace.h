@@ -11,7 +11,7 @@ mem_dump:   2016.
 
 #if defined(MEMTRACE)
 
-/*ha defini·lva van, akkor a hibakat ebbe a fajlba Ìrja, egyÈbkent stderr-re*/
+/*ha defini√°lva van, akkor a hibakat ebbe a fajlba √≠rja, egy√©bkent stderr-re*/
 /*#define MEMTRACE_ERRFILE MEMTRACE.ERR*/
 
 /*ha definialva van, akkor futas kozben lancolt listat epit. Javasolt a hasznalata*/
