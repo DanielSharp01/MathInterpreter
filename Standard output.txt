@@ -21,4 +21,15 @@ undefined
 overload(a, b) = b == undefined ? a : a + b
 overload(3)
 overload(3, 2)
+overload
+atan2
+asin
+asin(sin(0.5))
+atan2(0, 0)
+4 % 6
+true && false
+true || false
+true && true
+false || false
+!true == false
 quit
