@@ -81,4 +81,3 @@ public:
 	void print(std::ostream& os, std::string spacing = "") const override;
 	void run(GlobalContext& context) const override;
 };
-};

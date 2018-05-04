@@ -66,4 +66,3 @@ private:
 	/// @param c Vizsgált karakter
 	bool isAlphaNumeric(char c);
 };
-};
