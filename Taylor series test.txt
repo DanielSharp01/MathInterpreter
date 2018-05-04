@@ -1,0 +1,6 @@
+cos_0_d(n) = n % 2 == 0 ? (-1)^(n/2) : 0
+sin_0_d(n) = n % 2 == 1 ? (-1)^((n-1)/2) : 0
+fact(n) = n > 1 ? n * fact(n - 1) : 1
+taylor_0_int(x, df, n) = df(n) / fact(n) * x^n
+taylor_0_sum(x, df, i, n) = i <= n ? taylor_0_sum(x, df, i + 1, n) + taylor_0_int(x, df, i) : 0
+taylor_0(x, df, n) = taylor_0_sum(x, df, 0, n)
