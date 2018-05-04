@@ -333,7 +333,7 @@ Expression * Parser::parseBaseExpression()
 		//Ide kerül minden token, amit nem lehet expression-ben használni, mert ha azt nem skippeljük, akkor elkezd loopolni a parseExpression függvény
 		if (currentToken()->match(TokenType::Unknown))
 			nextToken(); //Már ki lett írva mint Tokenizer hiba
-		else if (currentToken()->match(TokenType::Symbol) && ((SymbolToken*)currentToken())->match("="))
+		else if (currentToken()->match(TokenType::Symbol) && (((SymbolToken*)currentToken())->match("=") || ((SymbolToken*)currentToken())->match(")")))
 		{
 			errorCallback("Unexpected symbol '" + ((SymbolToken*)currentToken())->getValue() + "'", currentLine(), currentColumn());
 			nextToken();
